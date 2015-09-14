@@ -13,42 +13,10 @@
     <mvc:annotation-driven/>
     <context:annotation-config/>
     <context:component-scan base-package="com.summ.web"/>
+    <context:component-scan base-package="com.summ.service"/>
+    <context:component-scan base-package="com.summ.dao"/>
 
     <context:property-placeholder location="classpath*:debook.properties"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://${dbHost}:${dbPort}/${dbName}"/>
-        <property name="username" value="${dbUser}"/>
-        <property name="password" value="${dbPass}"/>
-    </bean>
-
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="annotatedClasses">
-            <list>
-                <value>com.summ.entity.CreditTypeEntity</value>
-                <value>com.summ.entity.CurrencyEntity</value>
-                <value>com.summ.entity.DebtEntity</value>
-                <value>com.summ.entity.LocalDebtEntity</value>
-                <value>com.summ.entity.LocalUserEntity</value>
-                <value>com.summ.entity.UserEntity</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-            </props>
-        </property>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="persistenceExceptionPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-
-    <!--<bean id="dataDao" class="com.summ.dao.DataDaoImpl"></bean>-->
-    <!--<bean id="dataServices" class="com.summ.service.DataServiceImpl"></bean>-->
+    <import resource="spring/hibernate-context.xml"/>
 </beans>

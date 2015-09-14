@@ -16,6 +16,7 @@
         <log4j.version>2.3</log4j.version>
         <spring.version>4.2.1.RELEASE</spring.version>
         <hibernate.version>5.0.1.Final</hibernate.version>
+        <jackson.version>2.6.1</jackson.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,24 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>

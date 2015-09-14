@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://${dbHost}:${dbPort}/${dbName}"/>
+        <property name="username" value="${dbUser}"/>
+        <property name="password" value="${dbPass}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.summ.entity.CreditTypeEntity</value>
+                <value>com.summ.entity.CurrencyEntity</value>
+                <value>com.summ.entity.DebtEntity</value>
+                <value>com.summ.entity.LocalDebtEntity</value>
+                <value>com.summ.entity.LocalUserEntity</value>
+                <value>com.summ.entity.UserEntity</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="persistenceExceptionPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
+</beans>

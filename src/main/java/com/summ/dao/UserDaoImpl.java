@@ -1,10 +1,12 @@
 package com.summ.dao;
 
 import com.summ.entity.UserEntity;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Serhii Tymoshenko
  */
+@Component
 public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao {
 
     public UserDaoImpl() {
