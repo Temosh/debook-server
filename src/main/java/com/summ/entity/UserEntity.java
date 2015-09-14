@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "user", schema = "", catalog = "debook_db")
 public class UserEntity {
     private int userId;
+    private String login;
     private String name;
     private String surname;
     private String email;
@@ -21,6 +22,16 @@ public class UserEntity {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "login")
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     @Basic
@@ -61,6 +72,7 @@ public class UserEntity {
         UserEntity that = (UserEntity) o;
 
         if (userId != that.userId) return false;
+        if (login != null ? !login.equals(that.login) : that.login != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
@@ -71,6 +83,7 @@ public class UserEntity {
     @Override
     public int hashCode() {
         int result = userId;
+        result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);

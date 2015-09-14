@@ -37,12 +37,14 @@ DROP TABLE IF EXISTS `debook_db`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `debook_db`.`user` (
   `user_id` INT NOT NULL,
+  `login` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `surname` VARCHAR(45) NULL,
   `email` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`user_id`) ,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) )
-ENGINE = InnoDB;
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC) )
+ENGINE = InnoDB
 
 
 -- -----------------------------------------------------
