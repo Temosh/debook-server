@@ -3,26 +3,15 @@ package com.summ.entity;
 import javax.persistence.*;
 
 /**
- * Created by svtem on 14.09.2015.
+ * @author Serhii Tymoshenko
  */
 @Entity
-@Table(name = "local_users", schema = "", catalog = "debook_db")
-@IdClass(LocalUsersEntityPK.class)
-public class LocalUsersEntity {
-    private int localUserId;
+@Table(name = "user", schema = "", catalog = "debook_db")
+public class UserEntity {
     private int userId;
     private String name;
     private String surname;
-
-    @Basic
-    @Column(name = "local_user_id")
-    public int getLocalUserId() {
-        return localUserId;
-    }
-
-    public void setLocalUserId(int localUserId) {
-        this.localUserId = localUserId;
-    }
+    private String email;
 
     @Id
     @Column(name = "user_id")
@@ -34,7 +23,7 @@ public class LocalUsersEntity {
         this.userId = userId;
     }
 
-    @Id
+    @Basic
     @Column(name = "name")
     public String getName() {
         return name;
@@ -44,7 +33,7 @@ public class LocalUsersEntity {
         this.name = name;
     }
 
-    @Id
+    @Basic
     @Column(name = "surname")
     public String getSurname() {
         return surname;
@@ -54,27 +43,37 @@ public class LocalUsersEntity {
         this.surname = surname;
     }
 
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LocalUsersEntity that = (LocalUsersEntity) o;
+        UserEntity that = (UserEntity) o;
 
-        if (localUserId != that.localUserId) return false;
         if (userId != that.userId) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = localUserId;
-        result = 31 * result + userId;
+        int result = userId;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 }

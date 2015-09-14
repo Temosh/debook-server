@@ -3,24 +3,23 @@ package com.summ.entity;
 import javax.persistence.*;
 
 /**
- * Created by svtem on 14.09.2015.
+ * @author Serhii Tymoshenko
  */
 @Entity
-@Table(name = "users", schema = "", catalog = "debook_db")
-public class UsersEntity {
-    private int userId;
+@Table(name = "local_user", schema = "", catalog = "debook_db")
+public class LocalUserEntity {
+    private int localUserId;
     private String name;
     private String surname;
-    private String email;
 
     @Id
-    @Column(name = "user_id")
-    public int getUserId() {
-        return userId;
+    @Column(name = "local_user_id")
+    public int getLocalUserId() {
+        return localUserId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setLocalUserId(int localUserId) {
+        this.localUserId = localUserId;
     }
 
     @Basic
@@ -43,37 +42,25 @@ public class UsersEntity {
         this.surname = surname;
     }
 
-    @Basic
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UsersEntity that = (UsersEntity) o;
+        LocalUserEntity that = (LocalUserEntity) o;
 
-        if (userId != that.userId) return false;
+        if (localUserId != that.localUserId) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
+        int result = localUserId;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 }

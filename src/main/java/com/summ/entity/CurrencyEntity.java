@@ -3,7 +3,7 @@ package com.summ.entity;
 import javax.persistence.*;
 
 /**
- * Created by svtem on 14.09.2015.
+ * @author Serhii Tymoshenko
  */
 @Entity
 @Table(name = "currency", schema = "", catalog = "debook_db")

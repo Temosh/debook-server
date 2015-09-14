@@ -4,35 +4,25 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * Created by svtem on 14.09.2015.
+ * @author Serhii Tymoshenko
  */
 @Entity
-@Table(name = "debts", schema = "", catalog = "debook_db")
-@IdClass(DebtsEntityPK.class)
-public class DebtsEntity {
-    private int debtorUserId;
-    private int creditorUserId;
+@Table(name = "local_debt", schema = "", catalog = "debook_db")
+@IdClass(LocalDebtEntityPK.class)
+public class LocalDebtEntity {
+    private int userId;
     private int currencyId;
+    private int localUserId;
     private BigDecimal value;
 
     @Id
-    @Column(name = "debtor_user_id")
-    public int getDebtorUserId() {
-        return debtorUserId;
+    @Column(name = "user_id")
+    public int getUserId() {
+        return userId;
     }
 
-    public void setDebtorUserId(int debtorUserId) {
-        this.debtorUserId = debtorUserId;
-    }
-
-    @Id
-    @Column(name = "creditor_user_id")
-    public int getCreditorUserId() {
-        return creditorUserId;
-    }
-
-    public void setCreditorUserId(int creditorUserId) {
-        this.creditorUserId = creditorUserId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Id
@@ -43,6 +33,16 @@ public class DebtsEntity {
 
     public void setCurrencyId(int currencyId) {
         this.currencyId = currencyId;
+    }
+
+    @Id
+    @Column(name = "local_user_id")
+    public int getLocalUserId() {
+        return localUserId;
+    }
+
+    public void setLocalUserId(int localUserId) {
+        this.localUserId = localUserId;
     }
 
     @Basic
@@ -60,11 +60,11 @@ public class DebtsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DebtsEntity that = (DebtsEntity) o;
+        LocalDebtEntity that = (LocalDebtEntity) o;
 
-        if (debtorUserId != that.debtorUserId) return false;
-        if (creditorUserId != that.creditorUserId) return false;
+        if (userId != that.userId) return false;
         if (currencyId != that.currencyId) return false;
+        if (localUserId != that.localUserId) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;
@@ -72,9 +72,9 @@ public class DebtsEntity {
 
     @Override
     public int hashCode() {
-        int result = debtorUserId;
-        result = 31 * result + creditorUserId;
+        int result = userId;
         result = 31 * result + currencyId;
+        result = 31 * result + localUserId;
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }

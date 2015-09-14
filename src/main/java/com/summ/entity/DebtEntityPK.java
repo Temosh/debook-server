@@ -5,9 +5,9 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * Created by svtem on 14.09.2015.
+ * @author Serhii Tymoshenko
  */
-public class DebtsEntityPK implements Serializable {
+public class DebtEntityPK implements Serializable {
     private int debtorUserId;
     private int creditorUserId;
     private int currencyId;
@@ -47,7 +47,7 @@ public class DebtsEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DebtsEntityPK that = (DebtsEntityPK) o;
+        DebtEntityPK that = (DebtEntityPK) o;
 
         if (debtorUserId != that.debtorUserId) return false;
         if (creditorUserId != that.creditorUserId) return false;

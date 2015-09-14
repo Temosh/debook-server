@@ -29,10 +29,10 @@
             <list>
                 <value>com.summ.entity.CreditTypeEntity</value>
                 <value>com.summ.entity.CurrencyEntity</value>
-                <value>com.summ.entity.DebtsEntity</value>
-                <value>com.summ.entity.LocalDebtsEntity</value>
-                <value>com.summ.entity.LocalUsersEntity</value>
-                <value>com.summ.entity.UsersEntity</value>
+                <value>com.summ.entity.DebtEntity</value>
+                <value>com.summ.entity.LocalDebtEntity</value>
+                <value>com.summ.entity.LocalUserEntity</value>
+                <value>com.summ.entity.UserEntity</value>
             </list>
         </property>
         <property name="hibernateProperties">
