@@ -126,7 +126,7 @@
         <profile>
             <id>tomcat</id>
             <build>
-                <finalName>deshop</finalName>
+                <finalName>debook</finalName>
             </build>
         </profile>
     </profiles>
