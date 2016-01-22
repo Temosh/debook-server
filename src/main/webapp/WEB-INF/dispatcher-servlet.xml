@@ -19,6 +19,6 @@
 
     <context:property-placeholder location="classpath*:debook.properties"/>
 
-    <!--<import resource="spring/security-context.xml"/>-->
+    <import resource="spring/security-context.xml"/>
     <import resource="spring/hibernate-context.xml"/>
 </beans>
