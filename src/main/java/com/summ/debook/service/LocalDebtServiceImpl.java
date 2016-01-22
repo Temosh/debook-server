@@ -1,7 +1,7 @@
-package com.summ.service;
+package com.summ.debook.service;
 
-import com.summ.dao.LocalDebtDao;
-import com.summ.entity.LocalDebtEntity;
+import com.summ.debook.dao.LocalDebtDao;
+import com.summ.debook.entity.LocalDebtEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

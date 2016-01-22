@@ -14,18 +14,20 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
-                <value>com.summ.entity.CreditTypeEntity</value>
-                <value>com.summ.entity.CurrencyEntity</value>
-                <value>com.summ.entity.DebtEntity</value>
-                <value>com.summ.entity.LocalDebtEntity</value>
-                <value>com.summ.entity.LocalUserEntity</value>
-                <value>com.summ.entity.UserEntity</value>
+                <value>com.summ.debook.entity.CreditTypeEntity</value>
+                <value>com.summ.debook.entity.CurrencyEntity</value>
+                <value>com.summ.debook.entity.DebtEntity</value>
+                <value>com.summ.debook.entity.LocalDebtEntity</value>
+                <value>com.summ.debook.entity.LocalUserEntity</value>
+                <value>com.summ.debook.entity.UserEntity</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://${dbHost}:${dbPort}/${dbName}</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
             </props>
         </property>
     </bean>

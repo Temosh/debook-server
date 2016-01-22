@@ -1,6 +1,6 @@
-package com.summ.service;
+package com.summ.debook.service;
 
-import com.summ.entity.LocalDebtEntity;
+import com.summ.debook.entity.LocalDebtEntity;
 
 import java.util.List;
 

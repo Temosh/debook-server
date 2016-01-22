@@ -1,4 +1,4 @@
-package com.summ.dao;
+package com.summ.debook.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

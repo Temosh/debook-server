@@ -1,7 +1,7 @@
-package com.summ.web;
+package com.summ.debook.web;
 
-import com.summ.entity.LocalDebtEntity;
-import com.summ.service.LocalDebtService;
+import com.summ.debook.entity.LocalDebtEntity;
+import com.summ.debook.service.LocalDebtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

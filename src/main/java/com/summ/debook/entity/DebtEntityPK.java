@@ -1,22 +1,19 @@
-package com.summ.entity;
+package com.summ.debook.entity;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * @author Serhii Tymoshenko
  */
-@Entity
-@Table(name = "debt", schema = "", catalog = "debook_db")
-@IdClass(DebtEntityPK.class)
-public class DebtEntity {
+public class DebtEntityPK implements Serializable {
     private int debtorUserId;
     private int creditorUserId;
     private int currencyId;
-    private BigDecimal value;
 
-    @Id
     @Column(name = "debtor_user_id")
+    @Id
     public int getDebtorUserId() {
         return debtorUserId;
     }
@@ -25,8 +22,8 @@ public class DebtEntity {
         this.debtorUserId = debtorUserId;
     }
 
-    @Id
     @Column(name = "creditor_user_id")
+    @Id
     public int getCreditorUserId() {
         return creditorUserId;
     }
@@ -35,8 +32,8 @@ public class DebtEntity {
         this.creditorUserId = creditorUserId;
     }
 
-    @Id
     @Column(name = "currency_id")
+    @Id
     public int getCurrencyId() {
         return currencyId;
     }
@@ -45,27 +42,16 @@ public class DebtEntity {
         this.currencyId = currencyId;
     }
 
-    @Basic
-    @Column(name = "value")
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DebtEntity that = (DebtEntity) o;
+        DebtEntityPK that = (DebtEntityPK) o;
 
         if (debtorUserId != that.debtorUserId) return false;
         if (creditorUserId != that.creditorUserId) return false;
         if (currencyId != that.currencyId) return false;
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;
     }
@@ -75,7 +61,6 @@ public class DebtEntity {
         int result = debtorUserId;
         result = 31 * result + creditorUserId;
         result = 31 * result + currencyId;
-        result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
 }

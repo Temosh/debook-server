@@ -1,6 +1,6 @@
-package com.summ.dao;
+package com.summ.debook.dao;
 
-import com.summ.entity.UserEntity;
+import com.summ.debook.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 /**

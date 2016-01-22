@@ -1,4 +1,4 @@
-package com.summ.entity;
+package com.summ.debook.entity;
 
 import javax.persistence.*;
 

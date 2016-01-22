@@ -1,4 +1,4 @@
-package com.summ.dao;
+package com.summ.debook.dao;
 
 import java.io.Serializable;
 import java.util.List;

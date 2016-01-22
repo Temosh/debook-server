@@ -1,10 +1,7 @@
-package com.summ.dao;
+package com.summ.debook.dao;
 
-import com.summ.entity.LocalDebtEntity;
-import com.summ.entity.LocalUserEntity;
+import com.summ.debook.entity.LocalDebtEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author Serhii Tymoshenko

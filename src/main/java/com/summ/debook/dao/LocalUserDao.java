@@ -1,6 +1,6 @@
-package com.summ.dao;
+package com.summ.debook.dao;
 
-import com.summ.entity.LocalUserEntity;
+import com.summ.debook.entity.LocalUserEntity;
 
 /**
  * @author Serhii Tymoshenko

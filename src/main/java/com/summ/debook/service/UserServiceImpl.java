@@ -1,7 +1,7 @@
-package com.summ.service;
+package com.summ.debook.service;
 
-import com.summ.dao.UserDao;
-import com.summ.entity.UserEntity;
+import com.summ.debook.dao.UserDao;
+import com.summ.debook.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

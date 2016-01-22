@@ -1,6 +1,6 @@
-package com.summ.service;
+package com.summ.debook.service;
 
-import com.summ.entity.UserEntity;
+import com.summ.debook.entity.UserEntity;
 
 import java.util.List;
 

@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `debook_db`.`user` (
   PRIMARY KEY (`user_id`) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
   UNIQUE INDEX `login_UNIQUE` (`login` ASC) )
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------

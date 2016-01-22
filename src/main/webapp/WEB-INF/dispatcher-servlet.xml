@@ -12,11 +12,13 @@
 
     <mvc:annotation-driven/>
     <context:annotation-config/>
-    <context:component-scan base-package="com.summ.web"/>
-    <context:component-scan base-package="com.summ.service"/>
-    <context:component-scan base-package="com.summ.dao"/>
+    <context:component-scan base-package="com.summ.debook.web"/>
+    <context:component-scan base-package="com.summ.debook.service"/>
+    <context:component-scan base-package="com.summ.debook.dao"/>
+    <context:component-scan base-package="com.summ.debook.security"/>
 
     <context:property-placeholder location="classpath*:debook.properties"/>
 
+    <!--<import resource="spring/security-context.xml"/>-->
     <import resource="spring/hibernate-context.xml"/>
 </beans>
