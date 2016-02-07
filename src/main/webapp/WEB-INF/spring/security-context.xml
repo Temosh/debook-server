@@ -20,12 +20,13 @@
     <beans:bean id="myFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
-                <user name="user" password="user" authorities="ROLE_USER"/>
-            </user-service>
+        <authentication-provider user-service-ref="authenticationService">
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean id="authenticationService" class="com.summ.debook.service.AuthenticationServiceImpl"/>
+
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 </beans:beans>

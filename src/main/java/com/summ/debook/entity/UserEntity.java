@@ -181,4 +181,21 @@ public class UserEntity implements java.io.Serializable {
         this.authoritieses = authoritieses;
     }
 
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", activated=" + activated +
+                ", debtsForCreditorUserId=" + debtsForCreditorUserId +
+                ", localDebts=" + localDebts +
+                ", userSecret=" + userSecret +
+                ", debtsForDebtorUserId=" + debtsForDebtorUserId +
+                ", localUsers=" + localUsers +
+                ", authoritieses=" + authoritieses +
+                '}';
+    }
 }
