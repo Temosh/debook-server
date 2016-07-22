@@ -1,12 +1,12 @@
 package com.summ.debook.dao;
 
 import com.summ.debook.entity.LocalUserEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Serhii Tymoshenko
  */
-@Component
+@Repository
 public class LocalUserDaoImpl extends AbstractDaoImpl<LocalUserEntity> implements LocalUserDao {
 
     public LocalUserDaoImpl() {

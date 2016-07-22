@@ -1,6 +1,7 @@
 package com.summ.debook.entity;
 // Generated Jan 23, 2016 2:48:02 AM by Hibernate Tools 4.3.1.Final
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,7 +45,7 @@ public class UserSecretEntity implements java.io.Serializable {
         this.userId = userId;
     }
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     public UserEntity getUser() {
         return this.user;
