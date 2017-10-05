@@ -5,6 +5,8 @@ import com.summ.debook.dao.UserSecretDao;
 import com.summ.debook.entity.AuthoritiesEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.entity.UserSecretEntity;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +23,8 @@ import java.util.Set;
  * @author Serhii Tymoshenko
  */
 public class AuthenticationServiceImpl implements AuthenticationService {
+
+    private static final Log LOG = LogFactory.getLog(AuthenticationServiceImpl.class.getName());
 
     @Autowired
     private UserDao userDao;
@@ -39,9 +43,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Set<GrantedAuthority> authorities = new HashSet<>();
         authoritiesEntity.stream().forEach(authority -> authorities.add(new SimpleGrantedAuthority(authority.getId().getAuthority())));
 
-        User user = new User(userEntity.getLogin(), userEntity.getUserSecret().getHash(), authorities);
+        UserSecretEntity userSecretEntity = userSecretDao.findByUser(userEntity);
 
-        return user;
+        return new User(userEntity.getLogin(), userSecretEntity.getHash(), authorities);
     }
 
     @Transactional
@@ -52,15 +56,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(email);
         user.setName(name);
         user.setSurname(surname);
-
-        UserSecretEntity userSecret = new UserSecretEntity();
-        userSecret.setUser(user);
-        userSecret.setHash(passwordEncoder.encode(password));
-        user.setUserSecret(userSecret);
-
         user.setActivated(true);
 
         userDao.create(user);
+
+        UserSecretEntity userSecret = new UserSecretEntity();
+        userSecret.setUserId(user.getUserId());
+        userSecret.setHash(passwordEncoder.encode(password));
+
         userSecretDao.create(userSecret);
     }
 }

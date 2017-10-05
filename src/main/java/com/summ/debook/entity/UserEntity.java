@@ -8,9 +8,10 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -36,8 +37,6 @@ public class UserEntity implements java.io.Serializable {
     @JsonIgnore
     private Set<LocalDebtEntity> localDebts = new HashSet<LocalDebtEntity>(0);
     @JsonIgnore
-    private UserSecretEntity userSecret;
-    @JsonIgnore
     private Set<DebtEntity> debtsForDebtorUserId = new HashSet<DebtEntity>(0);
     @JsonIgnore
     private Set<LocalUserEntity> localUsers = new HashSet<LocalUserEntity>(0);
@@ -56,8 +55,11 @@ public class UserEntity implements java.io.Serializable {
     }
 
     public UserEntity(int userId, String login, String name, String surname, String email, boolean activated,
-                      Set<DebtEntity> debtsForCreditorUserId, Set<LocalDebtEntity> localDebts, UserSecretEntity userSecret,
-                      Set<DebtEntity> debtsForDebtorUserId, Set<LocalUserEntity> localUsers, Set<AuthoritiesEntity> authoritieses) {
+                      Set<DebtEntity> debtsForCreditorUserId,
+                      Set<LocalDebtEntity> localDebts,
+                      Set<DebtEntity> debtsForDebtorUserId,
+                      Set<LocalUserEntity> localUsers,
+                      Set<AuthoritiesEntity> authoritieses) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -66,13 +68,13 @@ public class UserEntity implements java.io.Serializable {
         this.activated = activated;
         this.debtsForCreditorUserId = debtsForCreditorUserId;
         this.localDebts = localDebts;
-        this.userSecret = userSecret;
         this.debtsForDebtorUserId = debtsForDebtorUserId;
         this.localUsers = localUsers;
         this.authoritieses = authoritieses;
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, nullable = false)
     public int getUserId() {
         return this.userId;
@@ -145,15 +147,6 @@ public class UserEntity implements java.io.Serializable {
         this.localDebts = localDebts;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
-    public UserSecretEntity getUserSecret() {
-        return this.userSecret;
-    }
-
-    public void setUserSecret(UserSecretEntity userSecret) {
-        this.userSecret = userSecret;
-    }
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "userByDebtorUserId")
     public Set<DebtEntity> getDebtsForDebtorUserId() {
         return this.debtsForDebtorUserId;
@@ -192,7 +185,6 @@ public class UserEntity implements java.io.Serializable {
                 ", activated=" + activated +
                 ", debtsForCreditorUserId=" + debtsForCreditorUserId +
                 ", localDebts=" + localDebts +
-                ", userSecret=" + userSecret +
                 ", debtsForDebtorUserId=" + debtsForDebtorUserId +
                 ", localUsers=" + localUsers +
                 ", authoritieses=" + authoritieses +

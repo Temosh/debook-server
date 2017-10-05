@@ -16,6 +16,7 @@
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedPackages" value="com.summ.debook.entity"/>
         <property name="annotatedClasses">
             <list>
                 <value>com.summ.debook.entity.AuthoritiesEntity</value>
@@ -35,6 +36,7 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
                 <prop key="hibernate.connection.url">jdbc:mysql://${dbHost}:${dbPort}/${dbName}</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
             </props>
