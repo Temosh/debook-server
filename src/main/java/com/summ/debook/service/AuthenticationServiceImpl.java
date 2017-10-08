@@ -5,6 +5,8 @@ import com.summ.debook.dao.UserSecretDao;
 import com.summ.debook.entity.AuthoritiesEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.entity.UserSecretEntity;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +24,8 @@ import java.util.Set;
  */
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    private static final Log LOG = LogFactory.getLog(AuthenticationServiceImpl.class.getName());
+
     @Autowired
     private UserDao userDao;
     @Autowired
@@ -29,6 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByLogin(login);
@@ -37,11 +43,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Set<GrantedAuthority> authorities = new HashSet<>();
         authoritiesEntity.stream().forEach(authority -> authorities.add(new SimpleGrantedAuthority(authority.getId().getAuthority())));
 
-        User user = new User(userEntity.getLogin(), userEntity.getUserSecret().getHash(), authorities);
+        UserSecretEntity userSecretEntity = userSecretDao.findByUser(userEntity);
 
-        return user;
+        return new User(userEntity.getLogin(), userSecretEntity.getHash(), authorities);
     }
 
+    @Transactional
     @Override
     public void createNewUser(String login, String email, String name, String surname, CharSequence password) {
         UserEntity user = new UserEntity();
@@ -49,16 +56,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(email);
         user.setName(name);
         user.setSurname(surname);
-
-        UserSecretEntity userSecret = new UserSecretEntity();
-        userSecret.setUser(user);
-        userSecret.setHash(passwordEncoder.encode(password));
-        user.setUserSecret(userSecret);
-
         user.setActivated(true);
 
-        //TODO CRITICAL!!! Should be in one transaction
         userDao.create(user);
+
+        UserSecretEntity userSecret = new UserSecretEntity();
+        userSecret.setUserId(user.getUserId());
+        userSecret.setHash(passwordEncoder.encode(password));
+
         userSecretDao.create(userSecret);
     }
 }

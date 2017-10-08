@@ -4,6 +4,7 @@ import com.summ.debook.dao.UserDao;
 import com.summ.debook.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,11 +17,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Transactional
     @Override
     public UserEntity getUser(String login) {
         return userDao.findByLogin(login);
     }
 
+    @Transactional
     @Override
     public List<UserEntity> getUsers() {
         return userDao.findAll();

@@ -2,22 +2,33 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:p="http://www.springframework.org/schema/p"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                                  http://www.springframework.org/schema/beans/spring-beans.xsd
                                  http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http entry-point-ref="restAuthenticationEntryPoint">
-        <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
-        <form-login
-                authentication-success-handler-ref="mySuccessHandler"
-                authentication-failure-handler-ref="myFailureHandler"
-        />
+        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/register" access="permitAll"/>
+        <intercept-url pattern="/**" access="hasRole('USER')"/>
+
+        <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter"/>
+
+        <cors />
+        <csrf token-repository-ref="tokenRepository"/>
+
         <logout/>
     </http>
 
-    <beans:bean id="mySuccessHandler" class="com.summ.debook.security.SavedRequestAwareAuthenticationSuccessHandler"/>
-    <beans:bean id="myFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+    <beans:bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
+    </beans:bean>
+
+    <beans:bean id="tokenRepository"
+            class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
+            p:cookieHttpOnly="false"/>
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="authenticationService">

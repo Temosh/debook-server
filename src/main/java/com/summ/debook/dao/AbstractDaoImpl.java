@@ -2,7 +2,6 @@ package com.summ.debook.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -19,7 +18,6 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     private SessionFactory sessionFactory;
 
     protected Session session;
-    protected Transaction tx;
 
     public AbstractDaoImpl(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -31,49 +29,34 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
 
     @Override
     public void create(T entity) {
-        session = getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        session = getSessionFactory().getCurrentSession();
         session.save(entity);
-        tx.commit();
-        session.close();
     }
 
     @Override
     public void edit(T entity) {
-        session = getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        session = getSessionFactory().getCurrentSession();
         session.update(entity);
-        tx.commit();
-        session.close();
     }
 
     @Override
     public void remove(T entity) {
-        session = getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        session = getSessionFactory().getCurrentSession();
         session.delete(entity);
-        tx.commit();
-        session.close();
     }
 
     @Override
     public T find(Serializable id) {
-        session = getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        session = getSessionFactory().getCurrentSession();
         T entity = session.get(entityClass, id);
-        tx.commit();
-        session.close();
         return entity;
     }
 
     @Override
     public List<T> findAll() {
-        session = getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        session = getSessionFactory().getCurrentSession();
         @SuppressWarnings("unchecked")
         List<T> entities = session.createCriteria(entityClass).list();
-        tx.commit();
-        session.close();
         return entities;
     }
 }

@@ -1,12 +1,12 @@
 package com.summ.debook.dao;
 
 import com.summ.debook.entity.UserEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Serhii Tymoshenko
  */
-@Component
+@Repository
 public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao {
 
     public UserDaoImpl() {
@@ -15,14 +15,11 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
 
     @Override
     public UserEntity findByLogin(String login) {
-        session = getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        session = getSessionFactory().getCurrentSession();
         UserEntity user = (UserEntity) session.createQuery(
                 "from UserEntity u where u.login = :login")
                 .setString("login", login)
                 .uniqueResult();
-        tx.commit();
-        session.close();
         return user;
     }
 }

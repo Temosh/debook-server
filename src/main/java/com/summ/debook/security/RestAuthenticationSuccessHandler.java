@@ -5,6 +5,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
@@ -13,9 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Implementation of {@link org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler}
+ * without redirection, dedicated for REST services.
+ * <p>
+ * Returns <b>200 OK</b> instead of <b>301 MOVED PERMANENTLY</b>
+ *
  * @author Serhii Tymoshenko
  */
-public class SavedRequestAwareAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+@Component("restAuthenticationSuccessHandler")
+public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 

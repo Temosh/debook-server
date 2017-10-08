@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Implementation dedicated for REST services. Forbids redirection to login form if unauthorized.
+ *
  * @author Serhii Tymoshenko
  */
 @Component("restAuthenticationEntryPoint")
