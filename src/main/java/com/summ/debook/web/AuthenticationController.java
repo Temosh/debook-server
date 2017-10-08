@@ -16,9 +16,9 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    //TODO Temporary
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void login(@RequestParam String login) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public void preFlight() {
+        //Returns CSRF token for login/registration
     }
 
     //TODO Temporary
