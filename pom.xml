@@ -11,14 +11,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <javaee.version>7.0</javaee.version>
+        <java.version>9</java.version>
+        <javaee.version>8.0</javaee.version>
         <junit.version>4.11</junit.version>
         <mysql.version>5.1.36</mysql.version>
         <log4j.version>2.9.1</log4j.version>
-        <spring.version>5.0.0.RELEASE</spring.version>
-        <spring.security.version>5.0.0.M4</spring.security.version>
-        <hibernate.version>5.0.1.Final</hibernate.version>
+        <spring.version>5.0.2.RELEASE</spring.version>
+        <spring.security.version>5.0.0.RELEASE</spring.security.version>
+        <hibernate.version>5.2.12.Final</hibernate.version>
         <jackson.version>2.9.1</jackson.version>
     </properties>
 
@@ -88,8 +88,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
         </dependency>
 
         <dependency>
@@ -139,7 +140,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
+                    <version>3.7.0</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -157,15 +158,4 @@
             </build>
         </profile>
     </profiles>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/libs-milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
