@@ -5,8 +5,8 @@ import com.summ.debook.dao.UserSecretDao;
 import com.summ.debook.entity.AuthoritiesEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.entity.UserSecretEntity;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Log LOG = LogFactory.getLog(AuthenticationServiceImpl.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationServiceImpl.class.getName());
 
     @Autowired
     private UserDao userDao;

@@ -15,7 +15,8 @@
         <javaee.version>8.0</javaee.version>
         <junit.version>4.11</junit.version>
         <mysql.version>5.1.36</mysql.version>
-        <log4j.version>2.9.1</log4j.version>
+        <log4j.version>2.10.0</log4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <spring.version>5.0.2.RELEASE</spring.version>
         <spring.security.version>5.0.0.RELEASE</spring.security.version>
         <hibernate.version>5.2.12.Final</hibernate.version>
@@ -95,8 +96,16 @@
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
+
+        <!-- Need to check if Spring logging can be handled with slf4j -->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>jcl-over-slf4j</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -113,14 +122,6 @@
                 <version>${spring.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-bom</artifactId>
-                <version>${log4j.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
