@@ -1,10 +1,12 @@
 package com.summ.debook.service;
 
+import com.summ.debook.dao.AuthoritiesDao;
 import com.summ.debook.dao.UserDao;
 import com.summ.debook.dao.UserSecretDao;
 import com.summ.debook.entity.AuthoritiesEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.entity.UserSecretEntity;
+import com.summ.debook.type.Authority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private UserDao userDao;
     @Autowired
     private UserSecretDao userSecretDao;
+    @Autowired
+    private AuthoritiesDao authoritiesDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -38,10 +42,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByLogin(login);
-        Set<AuthoritiesEntity> authoritiesEntity = userEntity.getAuthoritieses();
+        Set<AuthoritiesEntity> authoritiesEntity = userEntity.getAuthorities();
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authoritiesEntity.stream().forEach(authority -> authorities.add(new SimpleGrantedAuthority(authority.getId().getAuthority())));
+        authoritiesEntity.stream().forEach(authority ->
+                authorities.add(new SimpleGrantedAuthority(authority.getId().getAuthority().toString())));
 
         UserSecretEntity userSecretEntity = userSecretDao.findByUser(userEntity);
 
@@ -57,13 +62,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setName(name);
         user.setSurname(surname);
         user.setActivated(true);
-
         userDao.create(user);
 
         UserSecretEntity userSecret = new UserSecretEntity();
         userSecret.setUserId(user.getUserId());
         userSecret.setHash(passwordEncoder.encode(password));
-
         userSecretDao.create(userSecret);
+
+        authoritiesDao.create(new AuthoritiesEntity(Authority.ROLE_USER, user));
     }
 }

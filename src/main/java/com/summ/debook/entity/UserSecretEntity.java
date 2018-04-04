@@ -13,24 +13,24 @@ import javax.persistence.Table;
 @Table(name = "user_secret", catalog = "debook_db")
 public class UserSecretEntity implements java.io.Serializable {
 
-    private int userId;
+    private Long userId;
     private String hash;
 
     public UserSecretEntity() {
     }
 
-    public UserSecretEntity(int userId, String hash) {
+    public UserSecretEntity(Long userId, String hash) {
         this.userId = userId;
         this.hash = hash;
     }
 
     @Id
     @Column(name = "user_id", unique = true, nullable = false)
-    public int getUserId() {
+    public Long getUserId() {
         return this.userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

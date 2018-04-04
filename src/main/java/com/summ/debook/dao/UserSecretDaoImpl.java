@@ -19,7 +19,7 @@ public class UserSecretDaoImpl extends AbstractDaoImpl<UserSecretEntity> impleme
         session = getSessionFactory().getCurrentSession();
         return (UserSecretEntity) session.createQuery(
                 "from UserSecretEntity u where u.id = :user_id")
-                .setInteger("user_id", user.getUserId())
+                .setParameter("user_id", user.getUserId())
                 .uniqueResult();
     }
 }

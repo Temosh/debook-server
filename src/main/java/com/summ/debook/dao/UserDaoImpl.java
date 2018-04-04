@@ -18,7 +18,7 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
         session = getSessionFactory().getCurrentSession();
         UserEntity user = (UserEntity) session.createQuery(
                 "from UserEntity u where u.login = :login")
-                .setString("login", login)
+                .setParameter("login", login)
                 .uniqueResult();
         return user;
     }

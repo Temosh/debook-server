@@ -18,13 +18,15 @@
         <cors />
         <csrf token-repository-ref="tokenRepository"/>
 
-        <logout/>
+        <logout success-handler-ref="logoutSuccessHandler"/>
     </http>
 
     <beans:bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager"/>
         <beans:property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
     </beans:bean>
+
+    <beans:bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
 
     <beans:bean id="tokenRepository"
             class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
