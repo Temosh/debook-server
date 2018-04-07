@@ -21,4 +21,13 @@
 
     <import resource="spring/security-context.xml"/>
     <import resource="spring/hibernate-context.xml"/>
+
+    <mvc:cors>
+        <mvc:mapping
+                path="/**"
+                allow-credentials="true"
+                allowed-methods="*"
+                allowed-origins="http://summ.asuscomm.com"
+        />
+    </mvc:cors>
 </beans>

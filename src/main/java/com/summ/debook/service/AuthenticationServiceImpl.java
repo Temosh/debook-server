@@ -42,10 +42,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByLogin(login);
+
+        if (userEntity == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
         Set<AuthoritiesEntity> authoritiesEntity = userEntity.getAuthorities();
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authoritiesEntity.stream().forEach(authority ->
+        authoritiesEntity.forEach(authority ->
                 authorities.add(new SimpleGrantedAuthority(authority.getId().getAuthority().toString())));
 
         UserSecretEntity userSecretEntity = userSecretDao.findByUser(userEntity);
