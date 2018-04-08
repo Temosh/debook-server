@@ -1,12 +1,12 @@
 package com.summ.debook.service;
 
-import com.summ.debook.dao.LocalDebtDao;
-import com.summ.debook.entity.LocalDebtEntity;
+import com.summ.debook.dao.DebtDao;
+import com.summ.debook.entity.DebtEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Serhii Tymoshenko
@@ -15,11 +15,11 @@ import java.util.Set;
 public class LocalDebtServiceImpl implements LocalDebtService {
 
     @Autowired
-    private LocalDebtDao localDebtDao;
+    private DebtDao debtDao;
 
     @Transactional
     @Override
-    public Set<LocalDebtEntity> getDebts(String login) {
-        return localDebtDao.findByLogin(login);
+    public List<DebtEntity> getDebts(String login) {
+        return debtDao.findByLogin(login);
     }
 }

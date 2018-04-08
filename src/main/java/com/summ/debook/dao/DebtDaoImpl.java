@@ -1,28 +1,28 @@
 package com.summ.debook.dao;
 
-import com.summ.debook.entity.LocalDebtEntity;
+import com.summ.debook.entity.DebtEntity;
 import com.summ.debook.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Serhii Tymoshenko
  */
 @Repository
-public class LocalDebtDaoImpl extends AbstractDaoImpl<LocalDebtEntity> implements LocalDebtDao {
+public class DebtDaoImpl extends AbstractDaoImpl<DebtEntity> implements DebtDao {
 
     @Autowired
     private UserDao userDao;
 
-    public LocalDebtDaoImpl() {
-        super(LocalDebtEntity.class);
+    public DebtDaoImpl() {
+        super(DebtEntity.class);
     }
 
     @Override
-    public Set<LocalDebtEntity> findByLogin(String login) {
+    public List<DebtEntity> findByLogin(String login) {
         UserEntity user = userDao.findByLogin(login);
-        return user.getLocalDebts();
+        return user.getDebts();
     }
 }

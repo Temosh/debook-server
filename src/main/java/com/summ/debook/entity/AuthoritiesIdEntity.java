@@ -17,8 +17,9 @@ public class AuthoritiesIdEntity implements java.io.Serializable {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
-    @Column(name = "authority", nullable = false, length = 45)
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "authority", nullable = false, length = 45)
     private Authority authority;
 
     public AuthoritiesIdEntity() {
@@ -37,18 +38,13 @@ public class AuthoritiesIdEntity implements java.io.Serializable {
         return this.authority;
     }
 
-    public boolean equals(Object other) {
-        if ((this == other))
-            return true;
-        if ((other == null))
-            return false;
-        if (!(other instanceof AuthoritiesIdEntity))
-            return false;
-        AuthoritiesIdEntity castOther = (AuthoritiesIdEntity) other;
-
-        return (this.getUserId() == castOther.getUserId())
-                && ((this.getAuthority() == castOther.getAuthority()) || (this.getAuthority() != null
-                        && castOther.getAuthority() != null && this.getAuthority().equals(castOther.getAuthority())));
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthoritiesIdEntity that = (AuthoritiesIdEntity) o;
+        return Objects.equals(userId, that.userId) &&
+                authority == that.authority;
     }
 
     @Override

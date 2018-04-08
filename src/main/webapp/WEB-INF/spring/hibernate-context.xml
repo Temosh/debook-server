@@ -25,9 +25,9 @@
                 <value>com.summ.debook.entity.CurrencyEntity</value>
                 <value>com.summ.debook.entity.DebtEntity</value>
                 <value>com.summ.debook.entity.DebtIdEntity</value>
-                <value>com.summ.debook.entity.LocalDebtEntity</value>
-                <value>com.summ.debook.entity.LocalDebtIdEntity</value>
-                <value>com.summ.debook.entity.LocalUserEntity</value>
+                <value>com.summ.debook.entity.DebtEntity</value>
+                <value>com.summ.debook.entity.DebtIdEntity</value>
+                <value>com.summ.debook.entity.PersonEntity</value>
                 <value>com.summ.debook.entity.UserEntity</value>
                 <value>com.summ.debook.entity.UserSecretEntity</value>
             </list>

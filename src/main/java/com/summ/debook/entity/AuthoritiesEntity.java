@@ -21,7 +21,8 @@ public class AuthoritiesEntity implements java.io.Serializable {
 
     @EmbeddedId
     private AuthoritiesIdEntity id;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private UserEntity user;
 
