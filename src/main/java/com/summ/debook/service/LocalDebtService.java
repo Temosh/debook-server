@@ -1,12 +1,12 @@
 package com.summ.debook.service;
 
-import com.summ.debook.entity.LocalDebtEntity;
+import com.summ.debook.entity.DebtEntity;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Serhii Tymoshenko
  */
 public interface LocalDebtService {
-    Set<LocalDebtEntity> getDebts(String login);
+    List<DebtEntity> getDebts(String login);
 }

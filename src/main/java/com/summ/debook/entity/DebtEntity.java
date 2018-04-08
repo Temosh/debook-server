@@ -1,7 +1,10 @@
 package com.summ.debook.entity;
 // Generated Jan 23, 2016 2:48:02 AM by Hibernate Tools 4.3.1.Final
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -19,28 +22,47 @@ import javax.persistence.Table;
 @Table(name = "debt", catalog = "debook_db")
 public class DebtEntity implements java.io.Serializable {
 
+    @JsonIgnore
+    @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride(name = "userId", column = @Column(name = "user_id", nullable = false) ),
+            @AttributeOverride(name = "personId", column = @Column(name = "person_id", nullable = false) ),
+            @AttributeOverride(name = "currencyId", column = @Column(name = "currency_id", nullable = false) )
+    })
     private DebtIdEntity id;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    private UserEntity user;
+
+    @ManyToOne()
+    @JoinColumn(name = "person_id", nullable = false, insertable = false, updatable = false)
+    private PersonEntity person;
+
+    @ManyToOne
+    @JoinColumn(name = "currency_id", nullable = false, insertable = false, updatable = false)
     private CurrencyEntity currency;
-    private UserEntity userByCreditorUserId;
-    private UserEntity userByDebtorUserId;
+
+    @ManyToOne
+    @JoinColumn(name = "credit_type_id", nullable = false)
+    private CreditTypeEntity creditType;
+
+    @Column(name = "value", nullable = false, precision = 15)
     private BigDecimal value;
 
     public DebtEntity() {
     }
 
-    public DebtEntity(DebtIdEntity id, CurrencyEntity currency, UserEntity userByCreditorUserId, UserEntity userByDebtorUserId, BigDecimal value) {
+    public DebtEntity(DebtIdEntity id, UserEntity user, PersonEntity person, CurrencyEntity currency,
+                      CreditTypeEntity creditType, BigDecimal value) {
         this.id = id;
+        this.user = user;
+        this.person = person;
         this.currency = currency;
-        this.userByCreditorUserId = userByCreditorUserId;
-        this.userByDebtorUserId = userByDebtorUserId;
+        this.creditType = creditType;
         this.value = value;
     }
 
-    @EmbeddedId
-    @AttributeOverrides({
-            @AttributeOverride(name = "debtorUserId", column = @Column(name = "debtor_user_id", nullable = false) ),
-            @AttributeOverride(name = "creditorUserId", column = @Column(name = "creditor_user_id", nullable = false) ),
-            @AttributeOverride(name = "currencyId", column = @Column(name = "currency_id", nullable = false) ) })
     public DebtIdEntity getId() {
         return this.id;
     }
@@ -49,8 +71,22 @@ public class DebtEntity implements java.io.Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "currency_id", nullable = false, insertable = false, updatable = false)
+    public UserEntity getUser() {
+        return this.user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public PersonEntity getPerson() {
+        return this.person;
+    }
+
+    public void sePerson(PersonEntity person) {
+        this.person = person;
+    }
+
     public CurrencyEntity getCurrency() {
         return this.currency;
     }
@@ -59,27 +95,14 @@ public class DebtEntity implements java.io.Serializable {
         this.currency = currency;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "creditor_user_id", nullable = false, insertable = false, updatable = false)
-    public UserEntity getUserByCreditorUserId() {
-        return this.userByCreditorUserId;
+    public CreditTypeEntity getCreditType() {
+        return this.creditType;
     }
 
-    public void setUserByCreditorUserId(UserEntity userByCreditorUserId) {
-        this.userByCreditorUserId = userByCreditorUserId;
+    public void setCreditType(CreditTypeEntity creditType) {
+        this.creditType = creditType;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "debtor_user_id", nullable = false, insertable = false, updatable = false)
-    public UserEntity getUserByDebtorUserId() {
-        return this.userByDebtorUserId;
-    }
-
-    public void setUserByDebtorUserId(UserEntity userByDebtorUserId) {
-        this.userByDebtorUserId = userByDebtorUserId;
-    }
-
-    @Column(name = "value", nullable = false, precision = 15)
     public BigDecimal getValue() {
         return this.value;
     }
@@ -88,4 +111,16 @@ public class DebtEntity implements java.io.Serializable {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DebtEntity that = (DebtEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
