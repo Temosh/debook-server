@@ -18,7 +18,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `debook_db`;
-INSERT INTO `debook_db`.`credit_type` (`credit_type_id`, `type`) VALUES (1, 'Credit');
-INSERT INTO `debook_db`.`credit_type` (`credit_type_id`, `type`) VALUES (2, 'Dept');
+INSERT INTO `debook_db`.`credit_type` (`credit_type_id`, `type`) VALUES (1, 'LOAN');
+INSERT INTO `debook_db`.`credit_type` (`credit_type_id`, `type`) VALUES (2, 'DEBT');
 
 COMMIT;
