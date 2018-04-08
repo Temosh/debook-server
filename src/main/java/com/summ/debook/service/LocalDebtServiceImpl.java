@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Serhii Tymoshenko
@@ -19,7 +19,7 @@ public class LocalDebtServiceImpl implements LocalDebtService {
 
     @Transactional
     @Override
-    public List<LocalDebtEntity> getDebts() {
-        return localDebtDao.findAll();
+    public Set<LocalDebtEntity> getDebts(String login) {
+        return localDebtDao.findByLogin(login);
     }
 }
