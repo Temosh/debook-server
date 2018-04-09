@@ -22,7 +22,6 @@ public class DebtDaoImpl extends AbstractDaoImpl<DebtEntity> implements DebtDao 
 
     @Override
     public List<DebtEntity> findByLogin(String login) {
-        UserEntity user = userDao.findByLogin(login);
-        return user.getDebts();
+        return null;
     }
 }

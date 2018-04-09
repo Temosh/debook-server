@@ -22,7 +22,6 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "user",
-        catalog = "debook_db",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = "login")
@@ -56,17 +55,12 @@ public class UserEntity implements java.io.Serializable {
     //TODO LAZY
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<AuthoritiesEntity> authorities = new HashSet<AuthoritiesEntity>(0);
+    private Set<AuthoritiesEntity> authorities = new HashSet<>(0);
 
     //TODO LAZY
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ownerUser")
-    private List<PersonEntity> persons = new ArrayList<PersonEntity>(0);
-
-    //TODO LAZY
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<DebtEntity> debts = new ArrayList<DebtEntity>(0);
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerUser")
+    private List<PersonEntity> persons = new ArrayList<>(0);
 
     public UserEntity() {
     }
@@ -80,7 +74,7 @@ public class UserEntity implements java.io.Serializable {
     }
 
     public UserEntity(Long userId, String login, String name, String surname, String email, boolean activated,
-                      Set<AuthoritiesEntity> authorities, List<PersonEntity> persons, List<DebtEntity> debts) {
+                      Set<AuthoritiesEntity> authorities, List<PersonEntity> persons) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -89,7 +83,6 @@ public class UserEntity implements java.io.Serializable {
         this.activated = activated;
         this.authorities = authorities;
         this.persons = persons;
-        this.debts = debts;
     }
 
     public Long getUserId() {
@@ -156,14 +149,6 @@ public class UserEntity implements java.io.Serializable {
         this.persons = persons;
     }
 
-    public List<DebtEntity> getDebts() {
-        return debts;
-    }
-
-    public void setDebts(List<DebtEntity> debts) {
-        this.debts = debts;
-    }
-
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -175,7 +160,6 @@ public class UserEntity implements java.io.Serializable {
                 ", activated=" + activated +
                 ", authorities=" + authorities +
                 ", persons=" + persons +
-                ", debts=" + debts +
                 '}';
     }
 }

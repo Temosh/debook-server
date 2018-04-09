@@ -1,7 +1,7 @@
 package com.summ.debook.web;
 
-import com.summ.debook.entity.DebtEntity;
-import com.summ.debook.service.LocalDebtService;
+import com.summ.debook.entity.PersonEntity;
+import com.summ.debook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +14,15 @@ import java.util.List;
  * @author Serhii Tymoshenko
  */
 @RestController
-@RequestMapping("/debt")
-public class DebtController {
+@RequestMapping("/person")
+public class PersonController {
 
     @Autowired
-    private LocalDebtService localDebtService;
+    private PersonService personService;
 
-    @RequestMapping(value = "/local", method = RequestMethod.GET)
-    public List<DebtEntity> getDebts() {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<PersonEntity> getPersons() {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        return localDebtService.getDebts(login);
+        return personService.getPersons(login);
     }
 }
