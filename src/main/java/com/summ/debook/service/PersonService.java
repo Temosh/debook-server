@@ -8,5 +8,6 @@ import java.util.List;
  * @author Serhii Tymoshenko
  */
 public interface PersonService {
-    List<PersonEntity> getPersons(String login);
+    List<PersonEntity> getPersons();
+    void createPerson(PersonEntity person);
 }

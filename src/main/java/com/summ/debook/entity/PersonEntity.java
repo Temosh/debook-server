@@ -35,7 +35,7 @@ public class PersonEntity implements java.io.Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "linked_user_id", nullable = false)
+    @JoinColumn(name = "linked_user_id")
     private UserEntity linkedUser;
 
     @Column(name = "name", nullable = false, length = 45)

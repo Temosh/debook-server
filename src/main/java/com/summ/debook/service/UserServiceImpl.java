@@ -3,6 +3,7 @@ package com.summ.debook.service;
 import com.summ.debook.dao.UserDao;
 import com.summ.debook.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public UserEntity getCurrentUser() {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getUser(login);
+    }
 
     @Transactional
     @Override
