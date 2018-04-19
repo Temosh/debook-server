@@ -2,7 +2,6 @@ package com.summ.debook.service;
 
 import com.summ.debook.dao.PersonDao;
 import com.summ.debook.entity.PersonEntity;
-import com.summ.debook.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
