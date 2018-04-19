@@ -30,7 +30,7 @@
 
     <beans:bean id="tokenRepository"
             class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
-            p:cookieHttpOnly="false"/>
+            p:cookieHttpOnly="false" p:cookiePath="/"/>
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="authenticationService">
