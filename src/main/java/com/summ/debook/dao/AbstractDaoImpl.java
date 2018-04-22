@@ -28,9 +28,9 @@ public abstract class AbstractDaoImpl<T> implements AbstractDao<T> {
     }
 
     @Override
-    public void create(T entity) {
+    public Serializable create(T entity) {
         session = getSessionFactory().getCurrentSession();
-        session.save(entity);
+        return session.save(entity);
     }
 
     @Override

@@ -85,7 +85,7 @@ public class DebtEntity implements java.io.Serializable {
         return this.person;
     }
 
-    public void sePerson(PersonEntity person) {
+    public void setPerson(PersonEntity person) {
         this.person = person;
     }
 

@@ -1,15 +1,9 @@
 package com.summ.debook.entity;
 // Generated Jan 23, 2016 2:48:02 AM by Hibernate Tools 4.3.1.Final
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,28 +13,27 @@ import javax.persistence.Table;
 @Table(name = "currency")
 public class CurrencyEntity implements java.io.Serializable {
 
-    @JsonIgnore
-    private int currencyId;
+    private Long id;
     private String code;
     private String sign;
 
     public CurrencyEntity() {
     }
 
-    public CurrencyEntity(int currencyId, String code, String sign) {
-        this.currencyId = currencyId;
+    public CurrencyEntity(Long id, String code, String sign) {
+        this.id = id;
         this.code = code;
         this.sign = sign;
     }
 
     @Id
     @Column(name = "currency_id", unique = true, nullable = false)
-    public int getCurrencyId() {
-        return this.currencyId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setCurrencyId(int currencyId) {
-        this.currencyId = currencyId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Column(name = "code", nullable = false, length = 45)

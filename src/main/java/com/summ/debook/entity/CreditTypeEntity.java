@@ -18,7 +18,7 @@ public class CreditTypeEntity implements java.io.Serializable {
     @JsonIgnore
     @Id
     @Column(name = "credit_type_id", unique = true, nullable = false)
-    private int creditTypeId;
+    private Long creditTypeId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 45)
@@ -27,16 +27,16 @@ public class CreditTypeEntity implements java.io.Serializable {
     public CreditTypeEntity() {
     }
 
-    public CreditTypeEntity(int creditTypeId, CreditType type) {
+    public CreditTypeEntity(Long creditTypeId, CreditType type) {
         this.creditTypeId = creditTypeId;
         this.type = type;
     }
 
-    public int getCreditTypeId() {
+    public Long getCreditTypeId() {
         return this.creditTypeId;
     }
 
-    public void setCreditTypeId(int creditTypeId) {
+    public void setCreditTypeId(Long creditTypeId) {
         this.creditTypeId = creditTypeId;
     }
 
