@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Transactional
     @Override
     public UserEntity getCurrentUser() {
         String login = SecurityContextHolder.getContext().getAuthentication().getName();

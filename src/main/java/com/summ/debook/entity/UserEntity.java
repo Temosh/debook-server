@@ -38,7 +38,6 @@ public class UserEntity implements java.io.Serializable {
     @Column(name = "user_id", unique = true, nullable = false)
     private Long userId;
 
-    @JsonIgnore
     @Column(name = "login", nullable = false, length = 45)
     private String login;
 

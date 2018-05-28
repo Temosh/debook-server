@@ -1,5 +1,6 @@
 package com.summ.debook.security;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -17,7 +18,7 @@ import java.io.IOException;
  * Implementation of {@link org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler}
  * without redirection, dedicated for REST services.
  * <p>
- * Returns <b>200 OK</b> instead of <b>301 MOVED PERMANENTLY</b>
+ * Returns <b>204 No Content</b> instead of <b>301 MOVED PERMANENTLY</b>
  *
  * @author Serhii Tymoshenko
  */
@@ -28,6 +29,8 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+        response.setStatus(HttpStatus.NO_CONTENT.value());
+
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
         if (savedRequest == null) {

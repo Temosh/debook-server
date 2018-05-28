@@ -8,6 +8,8 @@
                                  http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <debug/>
+
     <http entry-point-ref="restAuthenticationEntryPoint">
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/register" access="permitAll"/>
@@ -26,7 +28,9 @@
         <beans:property name="authenticationSuccessHandler" ref="restAuthenticationSuccessHandler"/>
     </beans:bean>
 
-    <beans:bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler"/>
+    <beans:bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler">
+        <beans:constructor-arg name="httpStatusToReturn" value="NO_CONTENT"/>
+    </beans:bean>
 
     <beans:bean id="tokenRepository"
             class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
