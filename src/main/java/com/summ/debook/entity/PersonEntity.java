@@ -2,7 +2,10 @@ package com.summ.debook.entity;
 // Generated Jan 23, 2016 2:48:02 AM by Hibernate Tools 4.3.1.Final
 
 import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -33,10 +36,14 @@ public class PersonEntity implements java.io.Serializable {
     @JoinColumn(name = "owner_user_id", nullable = false)
     private UserEntity ownerUser;
 
-    @JsonIgnore
+    @JsonIgnore //TODO TEMP
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "linked_user_id")
-    private UserEntity linkedUser;
+    @JoinColumn(name = "connected_user_id")
+    private UserEntity connectedUser;
+
+    @JsonIgnore //TODO TEMP
+    @Column(name = "connection_approved")
+    private Boolean connectionApproved;
 
     @Column(name = "name", nullable = false, length = 45)
     private String name;
@@ -48,6 +55,16 @@ public class PersonEntity implements java.io.Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
     private List<DebtEntity> debts = new ArrayList<>(0);
 
+    @JsonIgnore
+    @CreationTimestamp
+    @Column(name = "create_time")
+    protected Timestamp createTime;
+
+    @JsonIgnore
+    @UpdateTimestamp
+    @Column(name = "update_time")
+    protected Timestamp updateTime;
+
     public PersonEntity() {
     }
 
@@ -56,9 +73,9 @@ public class PersonEntity implements java.io.Serializable {
         this.name = name;
     }
 
-    public PersonEntity(UserEntity ownerUser, UserEntity linkedUser, String name, String surname, List<DebtEntity> debts) {
+    public PersonEntity(UserEntity ownerUser, UserEntity connectedUser, String name, String surname, List<DebtEntity> debts) {
         this.ownerUser = ownerUser;
-        this.linkedUser = linkedUser;
+        this.connectedUser = connectedUser;
         this.name = name;
         this.surname = surname;
         this.debts = debts;
@@ -76,14 +93,21 @@ public class PersonEntity implements java.io.Serializable {
         this.ownerUser = ownerUser;
     }
 
-    public UserEntity getLinkedUser() {
-        return this.linkedUser;
+    public UserEntity getConnectedUser() {
+        return this.connectedUser;
     }
 
-    public void setLinkedUser(UserEntity linkedUser) {
-        this.linkedUser = linkedUser;
+    public void setConnectedUser(UserEntity linkedUser) {
+        this.connectedUser = linkedUser;
     }
 
+    public Boolean getConnectionApproved() {
+        return connectionApproved;
+    }
+
+    public void setConnectionApproved(Boolean connectionApproved) {
+        this.connectionApproved = connectionApproved;
+    }
 
     public String getName() {
         return this.name;
@@ -107,5 +131,21 @@ public class PersonEntity implements java.io.Serializable {
 
     public void setDebts(List<DebtEntity> debts) {
         this.debts = debts;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

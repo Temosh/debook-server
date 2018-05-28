@@ -3,8 +3,11 @@ package com.summ.debook.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -51,6 +54,16 @@ public class DebtEntity implements java.io.Serializable {
 
     @Column(name = "value", nullable = false, precision = 15)
     private BigDecimal value;
+
+    @JsonIgnore
+    @CreationTimestamp
+    @Column(name = "create_time")
+    protected Timestamp createTime;
+
+    @JsonIgnore
+    @UpdateTimestamp
+    @Column(name = "update_time")
+    protected Timestamp updateTime;
 
     public DebtEntity() {
     }
@@ -113,16 +126,19 @@ public class DebtEntity implements java.io.Serializable {
         this.value = value;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DebtEntity that = (DebtEntity) o;
-        return Objects.equals(id, that.id);
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

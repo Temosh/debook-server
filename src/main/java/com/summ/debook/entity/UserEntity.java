@@ -2,7 +2,10 @@ package com.summ.debook.entity;
 // Generated Jan 23, 2016 2:48:02 AM by Hibernate Tools 4.3.1.Final
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,6 +64,16 @@ public class UserEntity implements java.io.Serializable {
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerUser")
     private List<PersonEntity> persons = new ArrayList<>(0);
+
+    @JsonIgnore
+    @CreationTimestamp
+    @Column(name = "create_time")
+    protected Timestamp createTime;
+
+    @JsonIgnore
+    @UpdateTimestamp
+    @Column(name = "update_time")
+    protected Timestamp updateTime;
 
     public UserEntity() {
     }
@@ -147,6 +160,22 @@ public class UserEntity implements java.io.Serializable {
 
     public void setPersons(List<PersonEntity> persons) {
         this.persons = persons;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
