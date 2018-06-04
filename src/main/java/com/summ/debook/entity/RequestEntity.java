@@ -6,7 +6,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 /**
  * @author Serhii Tymoshenko
@@ -24,14 +23,6 @@ public class RequestEntity {
     @OneToOne
     @JoinColumn(name = "previous_request_id", nullable = false)
     protected RequestEntity previousRequest;
-
-    @OneToOne
-    @JoinColumn(name = "source_event_id", nullable = false)
-    protected EventEntity sourceEvent;
-
-    @OneToOne
-    @JoinColumn(name = "target_event_id", nullable = false)
-    protected EventEntity targetEvent;
 
     @Column(name = "message")
     protected String message;

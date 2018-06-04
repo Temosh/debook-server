@@ -27,7 +27,7 @@ public class AuthenticationController {
 
     //TODO Temporary
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestParam String login, @RequestParam String email,
+    public ResponseEntity<Void> register(@RequestParam String login, @RequestParam String email,
                                       @RequestParam String firstname, @RequestParam String lastname,
                                       @RequestParam String password, UriComponentsBuilder uriComponentsBuilder) {
         authenticationService.createNewUser(login, email, firstname, lastname, password);
