@@ -29,9 +29,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `debook_db`;
-INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (1, 'CONNECTION_REQUEST', 'INCOMING');
-INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (2, 'CONNECTION_REQUEST', 'OUTGOING');
-INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (3, 'DEBT_REQUEST', 'INCOMING');
-INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (4, 'DEBT_REQUEST', 'OUTGOING');
+INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (1, 'CONNECTION', 'REQUEST');
+INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (2, 'CONNECTION', 'APPROVE');
+INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (3, 'CONNECTION', 'REJECT');
+INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (4, 'DEBT', 'REQUEST');
+INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (5, 'DEBT', 'APPROVE');
+INSERT INTO `debook_db`.`event_type` (`event_type_id`, `type`, `subtype`) VALUES (6, 'DEBT', 'REJECT');
 
 COMMIT;
