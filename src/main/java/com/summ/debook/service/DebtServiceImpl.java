@@ -36,7 +36,7 @@ public class DebtServiceImpl implements DebtService {
 
     @Transactional
     @Override
-    public DebtEntity createDebt(DebtEntity debtEntity, Long personId) {
+    public DebtEntity createDebt(DebtEntity debtEntity, long personId) {
         UserEntity currentUser = userService.getCurrentUser();
         PersonEntity personEntity = personDao.find(personId);
 
@@ -56,7 +56,7 @@ public class DebtServiceImpl implements DebtService {
 
     @Transactional
     @Override
-    public DebtEntity updateDebt(DebtEntity partialDebtEntity, Long personId, Long currencyId) {
+    public DebtEntity updateDebt(DebtEntity partialDebtEntity, long personId, long currencyId) {
         UserEntity currentUser = userService.getCurrentUser();
         PersonEntity personEntity = personDao.find(personId);
 
@@ -72,8 +72,6 @@ public class DebtServiceImpl implements DebtService {
         debtEntity.setCreditType(creditTypeDao.findByType(partialDebtEntity.getCreditType().getType()));
         debtEntity.setValue(partialDebtEntity.getValue());
 
-        if (LOG.isInfoEnabled()) LOG.info("Updating debt: " + debtEntity); //TODO TEMP
-        debtDao.edit(debtEntity);
         return debtEntity;
     }
 }

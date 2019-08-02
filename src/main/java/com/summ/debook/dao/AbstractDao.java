@@ -8,7 +8,6 @@ import java.util.List;
  */
 public interface AbstractDao<T> {
     Serializable create(T entity);
-    void edit(T entity);
     void remove(T entity);
     T find(Serializable id);
     List<T> findAll();

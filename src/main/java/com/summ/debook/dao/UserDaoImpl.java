@@ -15,11 +15,8 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
 
     @Override
     public UserEntity findByLogin(String login) {
-        session = getSessionFactory().getCurrentSession();
-        UserEntity user = (UserEntity) session.createQuery(
-                "from UserEntity u where u.login = :login")
+        return em.createQuery("from UserEntity u where u.login = :login", UserEntity.class)
                 .setParameter("login", login)
-                .uniqueResult();
-        return user;
+                .getSingleResult();
     }
 }

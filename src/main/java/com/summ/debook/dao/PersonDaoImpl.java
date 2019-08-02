@@ -18,12 +18,8 @@ public class PersonDaoImpl extends AbstractDaoImpl<PersonEntity> implements Pers
 
     @Override
     public List<PersonEntity> findByLogin(String login) {
-        session = getSessionFactory().getCurrentSession();
-        return session
-                .createQuery(
-                        "from PersonEntity p where p.ownerUser = :login",
-                        PersonEntity.class)
+        return em.createQuery("from PersonEntity p where p.ownerUser = :login", PersonEntity.class)
                 .setParameter("login", login)
-                .list();
+                .getResultList();
     }
 }

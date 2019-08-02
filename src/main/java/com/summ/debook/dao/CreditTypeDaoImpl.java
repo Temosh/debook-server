@@ -15,11 +15,8 @@ public class CreditTypeDaoImpl extends AbstractDaoImpl<CreditTypeEntity> impleme
 
     @Override
     public CreditTypeEntity findByType(CreditType type) {
-        session = getSessionFactory().getCurrentSession();
-        CreditTypeEntity creditType = (CreditTypeEntity) session.createQuery(
-                "from CreditTypeEntity c where c.type = :type")
+        return em.createQuery("from CreditTypeEntity c where c.type = :type", CreditTypeEntity.class)
                 .setParameter("type", type)
-                .uniqueResult();
-        return creditType;
+                .getSingleResult();
     }
 }

@@ -17,13 +17,9 @@ public class DebtDaoImpl extends AbstractDaoImpl<DebtEntity> implements DebtDao 
 
     @Override
     public DebtEntity find(PersonEntity personEntity, CurrencyEntity currencyEntity) {
-        session = getSessionFactory().getCurrentSession();
-        return session
-                .createQuery(
-                        "from DebtEntity d where d.person = :person and d.currency = :currency",
-                        DebtEntity.class)
+        return em.createQuery("from DebtEntity d where d.person = :person and d.currency = :currency", DebtEntity.class)
                 .setParameter("person", personEntity)
                 .setParameter("currency", currencyEntity)
-                .uniqueResult();
+                .getSingleResult();
     }
 }

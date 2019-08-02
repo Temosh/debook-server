@@ -1,6 +1,7 @@
 package com.summ.debook.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -8,7 +9,7 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name = "debt_request")
-public class DebtRequestEntity {
+public class DebtRequestEntity implements Serializable {
 
     @Id
     @Column(name = "request_id")

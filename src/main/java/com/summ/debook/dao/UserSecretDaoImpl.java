@@ -16,10 +16,8 @@ public class UserSecretDaoImpl extends AbstractDaoImpl<UserSecretEntity> impleme
 
     @Override
     public UserSecretEntity findByUser(UserEntity user) {
-        session = getSessionFactory().getCurrentSession();
-        return (UserSecretEntity) session.createQuery(
-                "from UserSecretEntity u where u.id = :user_id")
+        return em.createQuery("from UserSecretEntity u where u.id = :user_id", UserSecretEntity.class)
                 .setParameter("user_id", user.getUserId())
-                .uniqueResult();
+                .getSingleResult();
     }
 }
