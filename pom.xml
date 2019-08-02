@@ -163,8 +163,11 @@
         <profile>
             <id>tomcat</id>
             <build>
-                <finalName>debook</finalName>
+                <finalName>api</finalName>
             </build>
+            <properties>
+                <java.version>8</java.version>
+            </properties>
         </profile>
     </profiles>
 </project>
