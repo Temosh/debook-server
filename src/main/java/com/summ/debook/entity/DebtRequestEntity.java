@@ -2,25 +2,40 @@ package com.summ.debook.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * @author Serhii Tymoshenko
  */
 @Entity
 @Table(name = "debt_request")
-public class DebtRequestEntity extends RequestEntity {
+public class DebtRequestEntity {
+
+    @Id
+    @Column(name = "request_id")
+    protected Long id;
+
+    @OneToOne(optional = false)
+    @PrimaryKeyJoinColumn
+    protected RequestEntity request;
 
     @ManyToOne
     @JoinColumn(name = "currency_id", nullable = false, updatable = false)
-    private CurrencyEntity currency;
+    protected CurrencyEntity currency;
 
     @ManyToOne
     @JoinColumn(name = "credit_type_id", nullable = false)
-    private CreditTypeEntity creditType;
+    protected CreditTypeEntity creditType;
 
-    @Column(name = "value")
-    private BigDecimal value;
+    @Column(name = "value", nullable = false)
+    protected BigDecimal value;
+
+    public RequestEntity getRequest() {
+        return request;
+    }
+
+    public void setRequest(RequestEntity request) {
+        this.request = request;
+    }
 
     public CurrencyEntity getCurrency() {
         return currency;
