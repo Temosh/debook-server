@@ -11,6 +11,7 @@
     <debug/>
 
     <http entry-point-ref="restAuthenticationEntryPoint">
+        <intercept-url pattern="/doc/**" access="permitAll"/>
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/register" access="permitAll"/>
         <intercept-url pattern="/**" access="hasRole('USER')"/>

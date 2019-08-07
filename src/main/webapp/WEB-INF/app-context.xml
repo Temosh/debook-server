@@ -24,10 +24,20 @@
 
     <mvc:cors>
         <mvc:mapping
+                path="/doc/**"
+                allowed-methods="GET"
+        />
+        <mvc:mapping
                 path="/**"
                 allow-credentials="true"
                 allowed-methods="*"
                 allowed-origins="http://summ.asuscomm.com"
         />
     </mvc:cors>
+
+    <mvc:resources
+            mapping="/doc/**"
+            location="/, /META-INF/doc/"
+            cache-period="31556926"
+    />
 </beans>

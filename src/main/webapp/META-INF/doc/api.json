@@ -1,0 +1,1069 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "DeBook",
+    "version": "0.1.0",
+    "contact": {}
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "responses": {
+          "201": {
+            "description": "Successful creation of new user"
+          }
+        },
+        "security": [
+          {}
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "parameters": [
+          {
+            "style": "form",
+            "explode": true,
+            "name": "username",
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          },
+          {
+            "style": "form",
+            "explode": true,
+            "name": "password",
+            "schema": {
+              "format": "password",
+              "type": "string"
+            },
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully authenticated. The session ID is returned in a cookie named `JSESSIONID`. You need to include this cookie in subsequent requests."
+          },
+          "401": {
+            "description": "Invalid username/password"
+          }
+        },
+        "security": [
+          {
+            "csrf": []
+          }
+        ],
+        "summary": "",
+        "description": "Authentication operation"
+      },
+      "options": {
+        "responses": {
+          "204": {
+            "description": "Returns CSRF token in cookie `XSRF-TOKEN`. All subsequent requests must include this cookie. In case it was missed, initial CSRF token will become invalid as well as client session. Also each methods that can change state (e.g. POST, PUT, PATCH, DELETE) should include CSRF token in request header with name `X-XSRF-TOKEN`"
+          }
+        },
+        "security": [
+          {}
+        ],
+        "description": "Preflight request for receiving server-generated CSRF token `XSRF-TOKEN`"
+      }
+    },
+    "/currencies": {
+      "summary": "Path used to manage the list of currencies.",
+      "description": "The REST endpoint/path used to list and create zero or more `Currency` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Currency"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `Currency` entities."
+          }
+        },
+        "operationId": "getcurrencies",
+        "summary": "List All currencies",
+        "description": "Gets a list of all `Currency` entities."
+      }
+    },
+    "/currencies/{currencyId}": {
+      "summary": "Path used to manage a single Currency.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `Currency`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Currency"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `Currency`."
+          }
+        },
+        "operationId": "getCurrency",
+        "summary": "Get a Currency",
+        "description": "Gets the details of a single instance of a `Currency`."
+      },
+      "parameters": [
+        {
+          "name": "currencyId",
+          "description": "A unique identifier for a `Currency`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/people": {
+      "summary": "Path used to manage the list of people.",
+      "description": "The REST endpoint/path used to list and create zero or more `Person` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Person"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `Person` entities."
+          }
+        },
+        "operationId": "getpeople",
+        "summary": "List All people",
+        "description": "Gets a list of all `Person` entities."
+      },
+      "post": {
+        "requestBody": {
+          "description": "A new `Person` to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Person"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "createPerson",
+        "summary": "Create a Person",
+        "description": "Creates a new instance of a `Person`."
+      }
+    },
+    "/people/{personId}": {
+      "summary": "Path used to manage a single Person.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `Person`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `Person`."
+          }
+        },
+        "operationId": "getPerson",
+        "summary": "Get a Person",
+        "description": "Gets the details of a single instance of a `Person`."
+      },
+      "put": {
+        "requestBody": {
+          "description": "Updated `Person` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Person"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "updatePerson",
+        "summary": "Update a Person",
+        "description": "Updates an existing `Person`."
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "deletePerson",
+        "summary": "Delete a Person",
+        "description": "Deletes an existing `Person`."
+      },
+      "parameters": [
+        {
+          "name": "personId",
+          "description": "A unique identifier for a `Person`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/requests": {
+      "summary": "Path used to manage the list of requestheaders.",
+      "description": "The REST endpoint/path used to list and create zero or more `RequestHeader` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestHeader"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `RequestHeader` entities."
+          }
+        },
+        "operationId": "getrequestheaders",
+        "summary": "List All requestheaders",
+        "description": "Gets a list of all `RequestHeader` entities."
+      },
+      "post": {
+        "requestBody": {
+          "description": "A new `RequestHeader` to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestHeader"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "createRequestHeader",
+        "summary": "Create a RequestHeader",
+        "description": "Creates a new instance of a `RequestHeader`."
+      }
+    },
+    "/requests/{requestheaderId}": {
+      "summary": "Path used to manage a single RequestHeader.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `RequestHeader`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestHeader"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `RequestHeader`."
+          }
+        },
+        "operationId": "getRequestHeader",
+        "summary": "Get a RequestHeader",
+        "description": "Gets the details of a single instance of a `RequestHeader`."
+      },
+      "put": {
+        "requestBody": {
+          "description": "Updated `RequestHeader` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestHeader"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "updateRequestHeader",
+        "summary": "Update a RequestHeader",
+        "description": "Updates an existing `RequestHeader`."
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "deleteRequestHeader",
+        "summary": "Delete a RequestHeader",
+        "description": "Deletes an existing `RequestHeader`."
+      },
+      "parameters": [
+        {
+          "name": "requestheaderId",
+          "description": "A unique identifier for a `RequestHeader`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/requests/connections": {
+      "summary": "Path used to manage the list of connectionrequests.",
+      "description": "The REST endpoint/path used to list and create zero or more `ConnectionRequest` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConnectionRequest"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `ConnectionRequest` entities."
+          }
+        },
+        "operationId": "getconnectionrequests",
+        "summary": "List All connectionrequests",
+        "description": "Gets a list of all `ConnectionRequest` entities."
+      },
+      "post": {
+        "requestBody": {
+          "description": "A new `ConnectionRequest` to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "createConnectionRequest",
+        "summary": "Create a ConnectionRequest",
+        "description": "Creates a new instance of a `ConnectionRequest`."
+      }
+    },
+    "/requests/connections/{connectionrequestId}": {
+      "summary": "Path used to manage a single ConnectionRequest.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `ConnectionRequest`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionRequest"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `ConnectionRequest`."
+          }
+        },
+        "operationId": "getConnectionRequest",
+        "summary": "Get a ConnectionRequest",
+        "description": "Gets the details of a single instance of a `ConnectionRequest`."
+      },
+      "put": {
+        "requestBody": {
+          "description": "Updated `ConnectionRequest` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "updateConnectionRequest",
+        "summary": "Update a ConnectionRequest",
+        "description": "Updates an existing `ConnectionRequest`."
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "deleteConnectionRequest",
+        "summary": "Delete a ConnectionRequest",
+        "description": "Deletes an existing `ConnectionRequest`."
+      },
+      "parameters": [
+        {
+          "name": "connectionrequestId",
+          "description": "A unique identifier for a `ConnectionRequest`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/requests/debts": {
+      "summary": "Path used to manage the list of debtrequests.",
+      "description": "The REST endpoint/path used to list and create zero or more `DebtRequest` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DebtRequest"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `DebtRequest` entities."
+          }
+        },
+        "operationId": "getdebtrequests",
+        "summary": "List All debtrequests",
+        "description": "Gets a list of all `DebtRequest` entities."
+      },
+      "post": {
+        "requestBody": {
+          "description": "A new `DebtRequest` to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DebtRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "createDebtRequest",
+        "summary": "Create a DebtRequest",
+        "description": "Creates a new instance of a `DebtRequest`."
+      }
+    },
+    "/requests/debts/{debtrequestId}": {
+      "summary": "Path used to manage a single DebtRequest.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `DebtRequest`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtRequest"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `DebtRequest`."
+          }
+        },
+        "operationId": "getDebtRequest",
+        "summary": "Get a DebtRequest",
+        "description": "Gets the details of a single instance of a `DebtRequest`."
+      },
+      "put": {
+        "requestBody": {
+          "description": "Updated `DebtRequest` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DebtRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "updateDebtRequest",
+        "summary": "Update a DebtRequest",
+        "description": "Updates an existing `DebtRequest`."
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "deleteDebtRequest",
+        "summary": "Delete a DebtRequest",
+        "description": "Deletes an existing `DebtRequest`."
+      },
+      "parameters": [
+        {
+          "name": "debtrequestId",
+          "description": "A unique identifier for a `DebtRequest`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/users": {
+      "summary": "Path used to manage the list of users.",
+      "description": "The REST endpoint/path used to list and create zero or more `User` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `User` entities."
+          }
+        },
+        "operationId": "getusers",
+        "summary": "List All users",
+        "description": "Gets a list of all `User` entities."
+      }
+    },
+    "/users/{userId}": {
+      "summary": "Path used to manage a single User.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `User`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `User`."
+          }
+        },
+        "operationId": "getUser",
+        "summary": "Get a User",
+        "description": "Gets the details of a single instance of a `User`."
+      },
+      "parameters": [
+        {
+          "name": "userId",
+          "description": "A unique identifier for a `User`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/people/{personId}/debts": {
+      "summary": "Path used to manage the list of debts.",
+      "description": "The REST endpoint/path used to list and create zero or more `Debt` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Debt"
+                  }
+                }
+              }
+            },
+            "description": "Successful response - returns an array of `Debt` entities."
+          }
+        },
+        "operationId": "getdebts",
+        "summary": "List All debts",
+        "description": "Gets a list of all `Debt` entities."
+      },
+      "post": {
+        "requestBody": {
+          "description": "A new `Debt` to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Debt"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "createDebt",
+        "summary": "Create a Debt",
+        "description": "Creates a new instance of a `Debt`."
+      },
+      "parameters": [
+        {
+          "name": "personId",
+          "description": "A unique identifier for a `Person`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/people/{personId}/debts/{debtId}": {
+      "summary": "Path used to manage a single Debt.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `Debt`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Debt"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `Debt`."
+          }
+        },
+        "operationId": "getDebt",
+        "summary": "Get a Debt",
+        "description": "Gets the details of a single instance of a `Debt`."
+      },
+      "put": {
+        "requestBody": {
+          "description": "Updated `Debt` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Debt"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "updateDebt",
+        "summary": "Update a Debt",
+        "description": "Updates an existing `Debt`."
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "deleteDebt",
+        "summary": "Delete a Debt",
+        "description": "Deletes an existing `Debt`."
+      },
+      "parameters": [
+        {
+          "name": "personId",
+          "description": "A unique identifier for a `Person`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        },
+        {
+          "name": "debtId",
+          "description": "A unique identifier for a `Debt`.",
+          "schema": {
+            "type": "string"
+          },
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/logout": {
+      "post": {
+        "responses": {
+          "204": {
+            "description": "Successful logout"
+          }
+        },
+        "description": "Logout operation"
+      }
+    },
+    "/profile": {
+      "summary": "Path used to manage a single Profile.",
+      "description": "The REST endpoint/path used to get, update, and delete single instances of an `Profile`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            },
+            "description": "Successful response - returns a single `Profile`."
+          }
+        },
+        "operationId": "getProfile",
+        "summary": "Get a Profile",
+        "description": "Gets the details of a single instance of a `Profile`."
+      },
+      "put": {
+        "requestBody": {
+          "description": "Updated `Profile` information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Profile"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful response."
+          }
+        },
+        "operationId": "updateProfile",
+        "summary": "Update a Profile",
+        "description": "Updates an existing `Profile`."
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Currency": {
+        "description": "Describes debt currency",
+        "required": [
+          "id",
+          "code",
+          "sign"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "",
+            "type": "string"
+          },
+          "code": {
+            "description": "",
+            "type": "string"
+          },
+          "sign": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      },
+      "Debt": {
+        "required": [
+          "id",
+          "type",
+          "currency",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "",
+            "type": "string"
+          },
+          "type": {
+            "description": "",
+            "enum": [
+              "LOAN",
+              "DEBT"
+            ],
+            "type": "string"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency",
+            "description": ""
+          },
+          "value": {
+            "description": "",
+            "type": "number"
+          }
+        }
+      },
+      "Person": {
+        "description": "Debtor",
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "",
+            "type": "string"
+          },
+          "name": {
+            "description": "",
+            "type": "string"
+          },
+          "connectedUserId": {
+            "description": "",
+            "type": "string"
+          },
+          "debts": {
+            "description": "",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Debt"
+            }
+          },
+          "connectionApproved": {
+            "description": "",
+            "type": "boolean"
+          }
+        }
+      },
+      "Profile": {
+        "description": "Profile of logged in user",
+        "required": [
+          "login",
+          "firstName",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "login": {
+            "description": "",
+            "type": "string"
+          },
+          "firstName": {
+            "description": "",
+            "type": "string"
+          },
+          "lastName": {
+            "description": "",
+            "type": "string"
+          },
+          "email": {
+            "description": "",
+            "type": "string"
+          },
+          "password": {
+            "format": "password",
+            "description": "",
+            "type": "string"
+          },
+          "avatar": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      },
+      "RequestHeader": {
+        "description": "Structure that combines common fields for all requests",
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "",
+            "type": "string"
+          },
+          "type": {
+            "description": "",
+            "enum": [
+              "CONNECTION",
+              "DEBT"
+            ],
+            "type": "string"
+          },
+          "previousRequestId": {
+            "description": "",
+            "type": "string"
+          },
+          "processed": {
+            "description": "",
+            "type": "boolean"
+          },
+          "rejected": {
+            "description": "",
+            "type": "boolean"
+          },
+          "rejectMessage": {
+            "description": "",
+            "type": "string"
+          },
+          "message": {
+            "description": "",
+            "type": "string"
+          },
+          "targetUserId": {
+            "description": "",
+            "type": "string"
+          },
+          "sourceUserId": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      },
+      "ConnectionRequest": {
+        "description": "Request for linking a person created by user to another DeBook user",
+        "required": [
+          "requestHeader"
+        ],
+        "type": "object",
+        "properties": {
+          "requestHeader": {
+            "$ref": "#/components/schemas/RequestHeader",
+            "description": ""
+          },
+          "debtRequests": {
+            "description": "",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DebtRequest"
+            }
+          }
+        }
+      },
+      "DebtRequest": {
+        "description": "Debt request to another user",
+        "required": [
+          "requestHeader",
+          "debtType",
+          "currency",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "requestHeader": {
+            "$ref": "#/components/schemas/RequestHeader",
+            "description": ""
+          },
+          "debtType": {
+            "description": "",
+            "enum": [
+              "LOAN",
+              "DEBT"
+            ],
+            "type": "string"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency",
+            "description": ""
+          },
+          "value": {
+            "description": "",
+            "type": "number"
+          }
+        }
+      },
+      "User": {
+        "description": "Public user data",
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "",
+            "type": "string"
+          },
+          "name": {
+            "description": "",
+            "type": "string"
+          },
+          "avatar": {
+            "description": "",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "name": "JSESSIONID",
+        "in": "cookie"
+      },
+      "csrf": {
+        "type": "apiKey",
+        "name": "X-XSRF-TOKEN",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "cookieAuth": [],
+      "csrf": []
+    }
+  ]
+}
