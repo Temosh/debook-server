@@ -24,10 +24,10 @@
                 <value>com.summ.debook.entity.CreditTypeEntity</value>
                 <value>com.summ.debook.entity.CurrencyEntity</value>
                 <value>com.summ.debook.entity.DebtEntity</value>
-                <value>com.summ.debook.entity.DebtRequestEntity</value>
+                <value>com.summ.debook.entity.DebtRequestDataEntity</value>
                 <value>com.summ.debook.entity.EventEntity</value>
                 <value>com.summ.debook.entity.EventTypeEntity</value>
-                <value>com.summ.debook.entity.DebtRequestEntity</value>
+                <value>com.summ.debook.entity.DebtRequestDataEntity</value>
                 <value>com.summ.debook.entity.PersonEntity</value>
                 <value>com.summ.debook.entity.RequestEntity</value>
                 <value>com.summ.debook.entity.UserEntity</value>

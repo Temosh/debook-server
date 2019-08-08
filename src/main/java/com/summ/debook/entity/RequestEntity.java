@@ -14,6 +14,8 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "request")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE")
 public class RequestEntity implements Serializable {
 
     @Id
@@ -22,23 +24,15 @@ public class RequestEntity implements Serializable {
     protected Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
+    @Column(name = "type", nullable = false, updatable = false)
     protected RequestType type;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_request_id")
-    protected RequestEntity parentRequest;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_user_id", nullable = false, updatable = false)
+    protected UserEntity sourceUser;
 
-    @OneToOne
-    @JoinColumn(name = "previous_request_id")
-    protected RequestEntity previousRequest;
-
-    @ManyToOne
-    @JoinColumn(name = "source_user_id", nullable = false)
-    protected UserEntity sourceeUser;
-
-    @ManyToOne
-    @JoinColumn(name = "target_user_id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "target_user_id", nullable = false, updatable = false)
     protected UserEntity targetUser;
 
     @Column(name = "message")
@@ -52,6 +46,10 @@ public class RequestEntity implements Serializable {
 
     @Column(name = "processed", nullable = false)
     protected Boolean processed;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "last_updater", nullable = false)
+    protected UserEntity lastUpdater;
 
     @JsonIgnore
     @CreationTimestamp
@@ -75,28 +73,12 @@ public class RequestEntity implements Serializable {
         this.type = requestType;
     }
 
-    public RequestEntity getParentRequest() {
-        return parentRequest;
+    public UserEntity getSourceUser() {
+        return sourceUser;
     }
 
-    public void setParentRequest(RequestEntity parentRequest) {
-        this.parentRequest = parentRequest;
-    }
-
-    public RequestEntity getPreviousRequest() {
-        return previousRequest;
-    }
-
-    public void setPreviousRequest(RequestEntity previousRequest) {
-        this.previousRequest = previousRequest;
-    }
-
-    public UserEntity getSourceeUser() {
-        return sourceeUser;
-    }
-
-    public void setSourceeUser(UserEntity sourceeUser) {
-        this.sourceeUser = sourceeUser;
+    public void setSourceUser(UserEntity sourceUser) {
+        this.sourceUser = sourceUser;
     }
 
     public UserEntity getTargetUser() {
@@ -139,19 +121,19 @@ public class RequestEntity implements Serializable {
         this.processed = processed;
     }
 
+    public UserEntity getLastUpdater() {
+        return lastUpdater;
+    }
+
+    public void setLastUpdater(UserEntity lastUpdater) {
+        this.lastUpdater = lastUpdater;
+    }
+
     public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
     public Timestamp getUpdateTime() {
         return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
     }
 }

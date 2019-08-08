@@ -217,31 +217,19 @@ DROP TABLE IF EXISTS `debook_db`.`request` ;
 CREATE TABLE IF NOT EXISTS `debook_db`.`request` (
   `request_id` INT NOT NULL AUTO_INCREMENT,
   `type` ENUM('CONNECTION', 'DEBT') NOT NULL,
-  `parent_request_id` INT NULL,
-  `previous_request_id` INT NULL,
   `source_user_id` INT NOT NULL,
   `target_user_id` INT NOT NULL,
   `message` VARCHAR(120) NULL,
   `reject_message` VARCHAR(120) NULL,
   `rejected` TINYINT(1) NULL,
   `processed` TINYINT(1) NOT NULL DEFAULT 0,
+  `last_updater` INT NOT NULL,
   `create_time` DATETIME NOT NULL,
   `update_time` DATETIME NOT NULL,
   PRIMARY KEY (`request_id`),
-  INDEX `fk_request_previous_request_idx` (`previous_request_id` ASC),
-  INDEX `fk_request_parent_request_idx` (`parent_request_id` ASC),
   INDEX `fk_request_source_user_idx` (`source_user_id` ASC),
   INDEX `fk_request_target_user_idx` (`target_user_id` ASC),
-  CONSTRAINT `fk_request_previous_request`
-    FOREIGN KEY (`previous_request_id`)
-    REFERENCES `debook_db`.`request` (`request_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_request_parent_request`
-    FOREIGN KEY (`parent_request_id`)
-    REFERENCES `debook_db`.`request` (`request_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_request_last_updater_idx` (`last_updater` ASC),
   CONSTRAINT `fk_request_source_user`
     FOREIGN KEY (`source_user_id`)
     REFERENCES `debook_db`.`user` (`user_id`)
@@ -251,36 +239,53 @@ CREATE TABLE IF NOT EXISTS `debook_db`.`request` (
     FOREIGN KEY (`target_user_id`)
     REFERENCES `debook_db`.`user` (`user_id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_request_last_updater`
+    FOREIGN KEY (`last_updater`)
+    REFERENCES `debook_db`.`user` (`user_id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `debook_db`.`debt_request`
+-- Table `debook_db`.`debt_request_data`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `debook_db`.`debt_request` ;
+DROP TABLE IF EXISTS `debook_db`.`debt_request_data` ;
 
-CREATE TABLE IF NOT EXISTS `debook_db`.`debt_request` (
-  `request_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `debook_db`.`debt_request_data` (
+  `debt_request_data_id` INT NOT NULL AUTO_INCREMENT,
+  `request_id` INT NOT NULL,
+  `owner_user_id` INT NOT NULL,
   `currency_id` INT NOT NULL,
   `credit_type_id` INT NOT NULL,
   `value` DECIMAL(15,2) NOT NULL,
-  PRIMARY KEY (`request_id`),
+  `message` VARCHAR(45) NULL,
+  `processed` TINYINT(1) NOT NULL DEFAULT 0,
+  `create_time` DATETIME NOT NULL,
   INDEX `fk_debt_request_currency_idx` (`currency_id` ASC),
   INDEX `fk_debt_request_credit_type_idx` (`credit_type_id` ASC),
-  CONSTRAINT `fk_debt_request_currency`
+  PRIMARY KEY (`debt_request_data_id`),
+  INDEX `fk_debt_request_data_user_idx` (`owner_user_id` ASC),
+  INDEX `fk_debt_request_data_request_idx` (`request_id` ASC),
+  CONSTRAINT `fk_debt_request_data_currency`
     FOREIGN KEY (`currency_id`)
     REFERENCES `debook_db`.`currency` (`currency_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_debt_request_credit_type`
+  CONSTRAINT `fk_debt_request_data_credit_type`
     FOREIGN KEY (`credit_type_id`)
     REFERENCES `debook_db`.`credit_type` (`credit_type_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_debt_request_request`
+  CONSTRAINT `fk_debt_request_data_request`
     FOREIGN KEY (`request_id`)
     REFERENCES `debook_db`.`request` (`request_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_debt_request_data_user`
+    FOREIGN KEY (`owner_user_id`)
+    REFERENCES `debook_db`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
