@@ -3,9 +3,10 @@ package com.summ.debook.web;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Serhii Tymoshenko
@@ -17,8 +18,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public UserEntity getUser() {
-        return userService.getCurrentUser();
+    @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    public UserEntity getUser(@PathVariable String userId) {
+        return null;
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    public List<UserEntity> getUsers() {
+        return null;
     }
 }

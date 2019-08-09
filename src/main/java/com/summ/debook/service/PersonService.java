@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface PersonService {
     List<PersonEntity> getPersons();
+    PersonEntity getPerson(long personId);
     void createPerson(PersonEntity person);
 }
