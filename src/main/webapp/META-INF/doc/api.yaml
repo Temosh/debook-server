@@ -1,0 +1,704 @@
+openapi: 3.0.2
+info:
+    title: DeBook
+    version: 0.2.0
+    contact: {}
+paths:
+    /register:
+        post:
+            tags:
+                - Account
+            responses:
+                '201':
+                    description: Successful creation of new user
+            security:
+                - {}
+    /login:
+        post:
+            tags:
+                - Account
+            parameters:
+                -
+                    style: form
+                    explode: true
+                    name: username
+                    schema:
+                        type: string
+                    in: query
+                    required: true
+                -
+                    style: form
+                    explode: true
+                    name: password
+                    schema:
+                        format: password
+                        type: string
+                    in: query
+                    required: true
+            responses:
+                '204':
+                    description: >-
+                        Successfully authenticated. The session ID is returned in a cookie named `JSESSIONID`.
+                        You need to include this cookie in subsequent requests.
+                '401':
+                    description: Invalid username/password
+            security:
+                -
+                    csrf: []
+            summary: ''
+            description: Authentication operation
+        options:
+            tags:
+                - Account
+            responses:
+                '204':
+                    description: >-
+                        Returns CSRF token in cookie `XSRF-TOKEN`. All subsequent requests must include this
+                        cookie. In case it was missed, initial CSRF token will become invalid as well as
+                        client session. Also each methods that can change state (e.g. POST, PUT, PATCH,
+                        DELETE) should include CSRF token in request header with name `X-XSRF-TOKEN`
+            security:
+                - {}
+            description: Preflight request for receiving server-generated CSRF token `XSRF-TOKEN`
+    /currencies:
+        summary: Path used to manage the list of currencies.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `Currency` entities.  This path
+            contains a `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - StaticData
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Currency'
+                    description: Successful response - returns an array of `Currency` entities.
+            operationId: getcurrencies
+            summary: List All currencies
+            description: Gets a list of all `Currency` entities.
+    '/currencies/{currencyId}':
+        summary: Path used to manage a single Currency.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `Currency`.  This
+            path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete
+            tasks, respectively.
+        get:
+            tags:
+                - StaticData
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Currency'
+                    description: Successful response - returns a single `Currency`.
+            operationId: getCurrency
+            summary: Get a Currency
+            description: Gets the details of a single instance of a `Currency`.
+        parameters:
+            -
+                name: currencyId
+                description: A unique identifier for a `Currency`.
+                schema:
+                    type: string
+                in: path
+                required: true
+    /people:
+        summary: Path used to manage the list of people.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `Person` entities.  This path contains
+            a `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - Record
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Person'
+                    description: Successful response - returns an array of `Person` entities.
+            operationId: getpeople
+            summary: List All people
+            description: Gets a list of all `Person` entities.
+        post:
+            requestBody:
+                description: A new `Person` to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Person'
+                required: true
+            tags:
+                - Record
+            responses:
+                '201':
+                    description: Successful response.
+            operationId: createPerson
+            summary: Create a Person
+            description: Creates a new instance of a `Person`.
+    '/people/{personId}':
+        summary: Path used to manage a single Person.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `Person`.  This path
+            contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            tags:
+                - Record
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Person'
+                    description: Successful response - returns a single `Person`.
+            operationId: getPerson
+            summary: Get a Person
+            description: Gets the details of a single instance of a `Person`.
+        put:
+            requestBody:
+                description: Updated `Person` information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Person'
+                required: true
+            tags:
+                - Record
+            responses:
+                '202':
+                    description: Successful response.
+            operationId: updatePerson
+            summary: Update a Person
+            description: Updates an existing `Person`.
+        delete:
+            tags:
+                - Record
+            responses:
+                '204':
+                    description: Successful response.
+            operationId: deletePerson
+            summary: Delete a Person
+            description: Deletes an existing `Person`.
+        parameters:
+            -
+                name: personId
+                description: A unique identifier for a `Person`.
+                schema:
+                    type: string
+                in: path
+                required: true
+    /requests:
+        summary: Path used to manage the list of requests.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `Request` entities.  This path
+            contains a `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - Request
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Request'
+                    description: Successful response - returns an array of `Request` entities.
+            operationId: getRequests
+            summary: List All requests
+            description: Gets a list of all `Request` entities.
+        post:
+            requestBody:
+                description: A new `Request` to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Request'
+                required: true
+            tags:
+                - Request
+            responses:
+                '201':
+                    description: Successful response.
+            operationId: createRequest
+            summary: Create a Request
+            description: Creates a new instance of a `Request`.
+    /users:
+        summary: Path used to manage the list of users.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `User` entities.  This path contains a
+            `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - StaticData
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+                    description: Successful response - returns an array of `User` entities.
+            operationId: getusers
+            summary: List All users
+            description: Gets a list of all `User` entities.
+    '/users/{userId}':
+        summary: Path used to manage a single User.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `User`.  This path
+            contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            tags:
+                - StaticData
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                    description: Successful response - returns a single `User`.
+            operationId: getUser
+            summary: Get a User
+            description: Gets the details of a single instance of a `User`.
+        parameters:
+            -
+                name: userId
+                description: A unique identifier for a `User`.
+                schema:
+                    type: string
+                in: path
+                required: true
+    '/people/{personId}/debts':
+        summary: Path used to manage the list of debts.
+        description: >-
+            The REST endpoint/path used to list and create zero or more `Debt` entities.  This path contains a
+            `GET` and `POST` operation to perform the list and create tasks, respectively.
+        get:
+            tags:
+                - Record
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Debt'
+                    description: Successful response - returns an array of `Debt` entities.
+            operationId: getdebts
+            summary: List All debts
+            description: Gets a list of all `Debt` entities.
+        post:
+            requestBody:
+                description: A new `Debt` to be created.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Debt'
+                required: true
+            tags:
+                - Record
+            responses:
+                '201':
+                    description: Successful response.
+            operationId: createDebt
+            summary: Create a Debt
+            description: Creates a new instance of a `Debt`.
+        parameters:
+            -
+                name: personId
+                description: A unique identifier for a `Person`.
+                schema:
+                    type: string
+                in: path
+                required: true
+    '/people/{personId}/debts/{debtId}':
+        summary: Path used to manage a single Debt.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `Debt`.  This path
+            contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks,
+            respectively.
+        get:
+            tags:
+                - Record
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Debt'
+                    description: Successful response - returns a single `Debt`.
+            operationId: getDebt
+            summary: Get a Debt
+            description: Gets the details of a single instance of a `Debt`.
+        put:
+            requestBody:
+                description: Updated `Debt` information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Debt'
+                required: true
+            tags:
+                - Record
+            responses:
+                '202':
+                    description: Successful response.
+            operationId: updateDebt
+            summary: Update a Debt
+            description: Updates an existing `Debt`.
+        delete:
+            tags:
+                - Record
+            responses:
+                '204':
+                    description: Successful response.
+            operationId: deleteDebt
+            summary: Delete a Debt
+            description: Deletes an existing `Debt`.
+        parameters:
+            -
+                name: personId
+                description: A unique identifier for a `Person`.
+                schema:
+                    type: string
+                in: path
+                required: true
+            -
+                name: debtId
+                description: A unique identifier for a `Debt`.
+                schema:
+                    type: string
+                in: path
+                required: true
+    /logout:
+        post:
+            tags:
+                - Account
+            responses:
+                '204':
+                    description: Successful logout
+            description: Logout operation
+    /profile:
+        summary: Path used to manage a single Profile.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `Profile`.  This
+            path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete
+            tasks, respectively.
+        get:
+            tags:
+                - Account
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Profile'
+                    description: Successful response - returns a single `Profile`.
+            operationId: getProfile
+            summary: Get a Profile
+            description: Gets the details of a single instance of a `Profile`.
+        put:
+            requestBody:
+                description: Updated `Profile` information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Profile'
+                required: true
+            tags:
+                - Account
+            responses:
+                '202':
+                    description: Successful response.
+            operationId: updateProfile
+            summary: Update a Profile
+            description: Updates an existing `Profile`.
+    '/requests/{requestId}':
+        summary: Path used to manage a single Request.
+        description: >-
+            The REST endpoint/path used to get, update, and delete single instances of an `Request`.  This
+            path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete
+            tasks, respectively.
+        get:
+            tags:
+                - Request
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Request'
+                    description: Successful response - returns a single `Request`.
+            operationId: getRequest
+            summary: Get a Request
+            description: Gets the details of a single instance of a `Request`.
+        put:
+            requestBody:
+                description: Updated `Request` information.
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Request'
+                required: true
+            tags:
+                - Request
+            responses:
+                '202':
+                    description: Successful response.
+            operationId: updateRequest
+            summary: Update a Request
+            description: Updates an existing `Request`.
+        delete:
+            tags:
+                - Request
+            responses:
+                '204':
+                    description: Successful response.
+            operationId: deleteRequest
+            summary: Delete a Request
+            description: Deletes an existing `Request`.
+        parameters:
+            -
+                name: requestId
+                description: A unique identifier for a `Request`.
+                schema:
+                    type: string
+                in: path
+                required: true
+    '/requests/{requestId}/debt-data-history':
+        summary: Path used to get Request history.
+        description: The REST endpoint/path used to list all changes that were made to `Request` entity.
+        get:
+            tags:
+                - Request
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/DebtRequestData'
+                    description: Successful response - returns an array of `DebtRequestData` entities.
+            summary: List all debt data changes
+            description: Gets a list of all `DebtRequestData` entities related to specified `Request`.
+        parameters:
+            -
+                name: requestId
+                description: A unique identifier for a `Request`.
+                schema:
+                    type: string
+                in: path
+                required: true
+components:
+    schemas:
+        Debt:
+            required:
+                - id
+                - creditType
+                - currency
+                - value
+            type: object
+            properties:
+                id:
+                    description: ''
+                    type: string
+                currency:
+                    $ref: '#/components/schemas/Currency'
+                    description: ''
+                value:
+                    description: ''
+                    type: number
+                creditType:
+                    description: ''
+                    enum:
+                        - LOAN
+                        - DEBT
+                    type: string
+        Person:
+            description: Debtor
+            required:
+                - id
+                - name
+            type: object
+            properties:
+                id:
+                    description: ''
+                    type: string
+                name:
+                    description: ''
+                    type: string
+                connectedUserId:
+                    description: ''
+                    type: string
+                debts:
+                    description: ''
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Debt'
+                connectionApproved:
+                    description: ''
+                    type: boolean
+        Profile:
+            description: Profile of logged in user
+            required:
+                - login
+                - firstName
+                - email
+                - password
+            type: object
+            properties:
+                login:
+                    description: ''
+                    type: string
+                firstName:
+                    description: ''
+                    type: string
+                lastName:
+                    description: ''
+                    type: string
+                email:
+                    description: ''
+                    type: string
+                password:
+                    format: password
+                    description: ''
+                    type: string
+                avatar:
+                    description: ''
+                    type: string
+        User:
+            description: Public user data
+            required:
+                - id
+                - name
+            type: object
+            properties:
+                id:
+                    description: ''
+                    type: string
+                name:
+                    description: ''
+                    type: string
+                avatar:
+                    description: ''
+                    type: string
+        Currency:
+            description: Describes debt currency
+            required:
+                - id
+                - code
+                - sign
+            type: object
+            properties:
+                id:
+                    description: ''
+                    type: string
+                code:
+                    description: ''
+                    type: string
+                sign:
+                    description: ''
+                    type: string
+        DebtRequestData:
+            description: ''
+            required:
+                - creationTime
+                - creditType
+                - currency
+                - value
+                - ownerUserId
+            type: object
+            properties:
+                message:
+                    description: ''
+                    type: string
+                currency:
+                    $ref: '#/components/schemas/Currency'
+                    description: ''
+                value:
+                    description: ''
+                    type: number
+                creditType:
+                    description: ''
+                    enum:
+                        - LOAN
+                        - DEBT
+                    type: string
+                creationTime:
+                    format: date-time
+                    description: ''
+                    type: string
+                ownerUserId:
+                    description: ''
+                    type: string
+        Request:
+            description: Debt request to another user
+            required:
+                - requestHeader
+                - creditType
+                - currency
+                - value
+                - data
+                - lastUpdaterId
+                - userId
+                - type
+                - processed
+            type: object
+            properties:
+                type:
+                    description: ''
+                    enum:
+                        - CONNECTION
+                        - DEBT
+                    type: string
+                userId:
+                    description: ''
+                    type: string
+                personId:
+                    description: ''
+                    type: string
+                processed:
+                    description: ''
+                    type: boolean
+                rejected:
+                    description: ''
+                    type: boolean
+                rejectMessage:
+                    description: ''
+                    type: string
+                message:
+                    description: ''
+                    type: string
+                data:
+                    description: ''
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DebtRequestData'
+                lastUpdaterId:
+                    description: ''
+                    type: string
+    securitySchemes:
+        cookieAuth:
+            type: apiKey
+            name: JSESSIONID
+            in: cookie
+        csrf:
+            type: apiKey
+            name: X-XSRF-TOKEN
+            in: header
+security:
+    -
+        cookieAuth: []
+        csrf: []
