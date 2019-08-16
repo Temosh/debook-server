@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
     title: DeBook
-    version: 0.2.0
+    version: 0.2.1
     contact: {}
 paths:
     /register:
@@ -251,6 +251,14 @@ paths:
             operationId: getusers
             summary: List All users
             description: Gets a list of all `User` entities.
+        parameters:
+            -
+                name: login
+                description: Search by user login
+                schema:
+                    type: string
+                in: query
+                required: false
     '/users/{userId}':
         summary: Path used to manage a single User.
         description: >-
@@ -491,6 +499,7 @@ paths:
                                 items:
                                     $ref: '#/components/schemas/DebtRequestData'
                     description: Successful response - returns an array of `DebtRequestData` entities.
+            operationId: getRequestDebtDataHistory
             summary: List all debt data changes
             description: Gets a list of all `DebtRequestData` entities related to specified `Request`.
         parameters:
@@ -501,6 +510,24 @@ paths:
                     type: string
                 in: path
                 required: true
+    /requests/pending:
+        summary: Path used to manage the list of requests.
+        description: The REST endpoint/path used to list pending (unprocessed) `Request` entities.
+        get:
+            tags:
+                - Request
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Request'
+                    description: Successful response - returns an array of `Request` entities.
+            operationId: getPendingRequests
+            summary: List pending requests
+            description: Gets a list of pending `Request` entities.
 components:
     schemas:
         Debt:
@@ -618,7 +645,7 @@ components:
                 - creditType
                 - currency
                 - value
-                - ownerUserId
+                - updaterId
             type: object
             properties:
                 message:
@@ -640,7 +667,7 @@ components:
                     format: date-time
                     description: ''
                     type: string
-                ownerUserId:
+                updaterId:
                     description: ''
                     type: string
         Request:
