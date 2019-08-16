@@ -1,7 +1,10 @@
 package com.summ.debook.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.summ.debook.type.CreditType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -10,19 +13,20 @@ import java.time.LocalDateTime;
  */
 public class DebtRequestData {
 
-    private String ownerUserId;
+    private String updaterId;
     private CreditType creditType;
     private Currency currency;
-    private Double value;
+    private BigDecimal value;
     private String message;
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDateTime creationTime;
 
-    public String getOwnerUserId() {
-        return ownerUserId;
+    public String getUpdaterId() {
+        return updaterId;
     }
 
-    public void setOwnerUserId(String ownerUserId) {
-        this.ownerUserId = ownerUserId;
+    public void setUpdaterId(String updaterId) {
+        this.updaterId = updaterId;
     }
 
     public CreditType getCreditType() {
@@ -41,11 +45,11 @@ public class DebtRequestData {
         this.currency = currency;
     }
 
-    public Double getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(BigDecimal value) {
         this.value = value;
     }
 

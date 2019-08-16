@@ -8,21 +8,30 @@ public class Currency {
     private String code;
     private String sign;
 
-    public Currency(String id, String code, String sign) {
-        this.id = id;
-        this.code = code;
-        this.sign = sign;
+    public Currency() {
     }
 
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getCode() {
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getSign() {
         return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 }

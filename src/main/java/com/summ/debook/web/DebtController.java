@@ -22,7 +22,7 @@ public class DebtController {
     @Autowired
     private DebtService debtService;
 
-    @PostMapping()
+    @PostMapping
     public DebtEntity createDebt(@RequestBody DebtEntity debtEntity, @PathVariable("personId") Long personId) {
         return debtService.createDebt(debtEntity, personId);
     }
@@ -33,7 +33,7 @@ public class DebtController {
         return null;
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public List<DebtEntity> getDebts() {
         return null;

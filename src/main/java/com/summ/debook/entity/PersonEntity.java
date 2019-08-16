@@ -52,7 +52,7 @@ public class PersonEntity implements java.io.Serializable {
     private String surname;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
+    @OneToMany(mappedBy = "person")
     private List<DebtEntity> debts = new ArrayList<>(0);
 
     @JsonIgnore
@@ -81,6 +81,19 @@ public class PersonEntity implements java.io.Serializable {
         this.debts = debts;
     }
 
+    @Override
+    public String toString() {
+        return "PersonEntity{" +
+                "personId=" + personId +
+                ", ownerUser=" + ownerUser.getUserId() +
+                ", connectionApproved=" + connectionApproved +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
+
     public Long getPersonId() {
         return personId;
     }
@@ -101,7 +114,7 @@ public class PersonEntity implements java.io.Serializable {
         this.connectedUser = linkedUser;
     }
 
-    public Boolean getConnectionApproved() {
+    public Boolean isConnectionApproved() {
         return connectionApproved;
     }
 

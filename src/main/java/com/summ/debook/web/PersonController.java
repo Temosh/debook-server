@@ -23,7 +23,7 @@ public class PersonController {
         personService.createPerson(person);
     }
 
-    @GetMapping("/personId")
+    @GetMapping("/{personId}")
     public PersonEntity getPerson(@PathVariable String personId) {
         return personService.getPerson(Long.parseLong(personId)); //TODO Number parsing!!!
     }
@@ -33,13 +33,13 @@ public class PersonController {
         return personService.getPersons();
     }
 
-    @PutMapping("/personId")
+    @PutMapping("/{personId}")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public void updatePerson(@PathVariable String personId) {
 
     }
 
-    @DeleteMapping("/personId")
+    @DeleteMapping("/{personId}")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public void deletePerson(@PathVariable String personId) {
 

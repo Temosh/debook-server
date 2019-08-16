@@ -6,13 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,14 +50,12 @@ public class UserEntity implements java.io.Serializable {
     @Column(name = "activated", nullable = false)
     private boolean activated;
 
-    //TODO LAZY
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private Set<AuthoritiesEntity> authorities = new HashSet<>(0);
 
-    //TODO LAZY
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ownerUser")
+    @OneToMany(mappedBy = "ownerUser")
     private List<PersonEntity> persons = new ArrayList<>(0);
 
     @JsonIgnore
@@ -95,6 +89,14 @@ public class UserEntity implements java.io.Serializable {
         this.activated = activated;
         this.authorities = authorities;
         this.persons = persons;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", login='" + login +
+                '}';
     }
 
     public Long getUserId() {
@@ -175,19 +177,5 @@ public class UserEntity implements java.io.Serializable {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "userId=" + userId +
-                ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", activated=" + activated +
-                ", authorities=" + authorities +
-                ", persons=" + persons +
-                '}';
     }
 }

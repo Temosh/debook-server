@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface UserService {
     UserEntity getCurrentUser();
-    UserEntity getUser(String login);
+    UserEntity getUser(Long id);
+    UserEntity getUserByLogin(String login);
     List<UserEntity> getUsers();
 }

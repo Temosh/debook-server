@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 public class DebtRequestDataEntity implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "debt_request_data_id")
     protected Long id;
 
@@ -24,7 +25,7 @@ public class DebtRequestDataEntity implements Serializable {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_user_id", nullable = false, updatable = false)
-    protected UserEntity user;
+    protected UserEntity ownerUser;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "currency_id", nullable = false, updatable = false)
@@ -47,6 +48,21 @@ public class DebtRequestDataEntity implements Serializable {
     @Column(name = "create_time", updatable = false)
     protected Timestamp createTime;
 
+    @Override
+    public String toString() {
+        return "DebtRequestDataEntity{" +
+                "id=" + id +
+                ", request=" + request.getId() +
+                ", ownerUser=" + ownerUser.getUserId() +
+                ", currency=" + currency.getId() +
+                ", creditType=" + creditType.getCreditTypeId() +
+                ", value=" + value +
+                ", message='" + message + '\'' +
+                ", processed=" + processed +
+                ", createTime=" + createTime +
+                '}';
+    }
+
     public RequestEntity getRequest() {
         return request;
     }
@@ -55,12 +71,12 @@ public class DebtRequestDataEntity implements Serializable {
         this.request = request;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getOwnerUser() {
+        return ownerUser;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setOwnerUser(UserEntity ownerUser) {
+        this.ownerUser = ownerUser;
     }
 
     public CurrencyEntity getCurrency() {

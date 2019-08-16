@@ -2,10 +2,7 @@ package com.summ.debook.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 
@@ -41,11 +38,13 @@ public abstract class AbstractDaoImpl<T extends Serializable> implements Abstrac
 
     @Override
     public List<T> findAll() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<T> cq = cb.createQuery(entityClass);
-        Root<T> rootEntry = cq.from(entityClass);
-        CriteriaQuery<T> all = cq.select(rootEntry);
-        TypedQuery<T> allQuery = em.createQuery(all);
-        return allQuery.getResultList();
+        CriteriaQuery<T> criteria = em.getCriteriaBuilder().createQuery(entityClass);
+        criteria.select(criteria.from(entityClass));
+        return em.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public T getReference(Serializable id) {
+        return em.getReference(entityClass, id);
     }
 }

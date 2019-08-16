@@ -2,6 +2,7 @@ package com.summ.debook.service;
 
 import com.summ.debook.dao.UserDao;
 import com.summ.debook.entity.UserEntity;
+import com.summ.debook.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,13 +21,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getCurrentUser() {
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getUser(login);
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userPrincipal.getUserEntity();
     }
 
     @Transactional
     @Override
-    public UserEntity getUser(String login) {
+    public UserEntity getUser(Long id) {
+        return userDao.find(id);
+    }
+
+    @Transactional
+    @Override
+    public UserEntity getUserByLogin(String login) {
         return userDao.findByLogin(login);
     }
 

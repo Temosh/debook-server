@@ -6,6 +6,7 @@ import com.summ.debook.dao.UserSecretDao;
 import com.summ.debook.entity.AuthoritiesEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.entity.UserSecretEntity;
+import com.summ.debook.security.UserPrincipalImpl;
 import com.summ.debook.type.Authority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserSecretEntity userSecretEntity = userSecretDao.findByUser(userEntity);
 
-        return new User(userEntity.getLogin(), userSecretEntity.getHash(), authorities);
+        return new UserPrincipalImpl(userEntity, userSecretEntity, authorities);
     }
 
     @Transactional

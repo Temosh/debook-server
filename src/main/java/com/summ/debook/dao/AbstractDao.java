@@ -6,9 +6,10 @@ import java.util.List;
 /**
  * @author Serhii Tymoshenko
  */
-public interface AbstractDao<T> {
+public interface AbstractDao<T extends Serializable> {
     Serializable create(T entity);
     void remove(T entity);
     T find(Serializable id);
     List<T> findAll();
+    T getReference(Serializable id);
 }

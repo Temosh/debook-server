@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.summ.debook.type.RequestType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author Serhii Tymoshenko
  */
 @Entity
 @Table(name = "request")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "TYPE")
 public class RequestEntity implements Serializable {
 
     @Id
@@ -25,7 +25,7 @@ public class RequestEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, updatable = false)
-    protected RequestType type;
+    private RequestType type;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "source_user_id", nullable = false, updatable = false)
@@ -51,15 +51,37 @@ public class RequestEntity implements Serializable {
     @JoinColumn(name = "last_updater", nullable = false)
     protected UserEntity lastUpdater;
 
+    @OneToMany(mappedBy = "request")
+    @Where(clause = "processed = 0")
+    protected List<DebtRequestDataEntity> debtRequestDataList;
+
     @JsonIgnore
     @CreationTimestamp
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time", updatable = false)
     protected Timestamp createTime;
 
     @JsonIgnore
     @UpdateTimestamp
-    @Column(name = "update_time", nullable = false)
+    @Column(name = "update_time")
     protected Timestamp updateTime;
+
+    @Override
+    public String toString() {
+        return "RequestEntity{" +
+                "id=" + id +
+                ", type=" + type +
+                ", sourceUser=" + sourceUser.getUserId() +
+                ", targetUser=" + targetUser.getUserId() +
+                ", message='" + message + '\'' +
+                ", rejectMessage='" + rejectMessage + '\'' +
+                ", rejected=" + rejected +
+                ", processed=" + processed +
+                ", lastUpdater=" + lastUpdater.getUserId() +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", debtRequestDataList=" + debtRequestDataList +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -69,8 +91,8 @@ public class RequestEntity implements Serializable {
         return type;
     }
 
-    public void setType(RequestType requestType) {
-        this.type = requestType;
+    public void setType(RequestType type) {
+        this.type = type;
     }
 
     public UserEntity getSourceUser() {
@@ -105,7 +127,7 @@ public class RequestEntity implements Serializable {
         this.rejectMessage = rejectMessage;
     }
 
-    public Boolean getRejected() {
+    public Boolean isRejected() {
         return rejected;
     }
 
@@ -113,7 +135,7 @@ public class RequestEntity implements Serializable {
         this.rejected = rejected;
     }
 
-    public Boolean getProcessed() {
+    public Boolean isProcessed() {
         return processed;
     }
 
@@ -127,6 +149,14 @@ public class RequestEntity implements Serializable {
 
     public void setLastUpdater(UserEntity lastUpdater) {
         this.lastUpdater = lastUpdater;
+    }
+
+    public List<DebtRequestDataEntity> getDebtRequestDataList() {
+        return debtRequestDataList;
+    }
+
+    public void setDebtRequestDataList(List<DebtRequestDataEntity> debtRequestDataList) {
+        this.debtRequestDataList = debtRequestDataList;
     }
 
     public Timestamp getCreateTime() {

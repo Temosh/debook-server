@@ -16,39 +16,42 @@ import java.util.List;
 @RequestMapping("/requests")
 public class RequestController {
 
-//    @Autowired
-//    private RequestService requestService;
+    @Autowired
+    private RequestService requestService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public void createRequest(@RequestBody Request request) {
+        requestService.createRequest(request);
     }
 
     @PutMapping("/{requestId}")
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public void updateRequest(@RequestBody Request request, @PathVariable("requestId") Long requestId) {
+    public void updateRequest(@RequestBody Request request, @PathVariable("requestId") String requestId) {
+        requestService.updateRequest(requestId, request);
     }
 
     @GetMapping("/{requestId}")
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public Request getRequest(@PathVariable("requestId") Long requestId) {
-        return null;
+    public Request getRequest(@PathVariable("requestId") String requestId) {
+        return requestService.getRequest(requestId);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     public List<Request> getRequests() {
-        return null;
+        return requestService.getRequests();
+    }
+
+    @GetMapping("/pending")
+    public List<Request> getPendingRequests() {
+        return requestService.getPendingRequests();
     }
 
     @GetMapping("/{requestId}/debt-data-history")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public List<DebtRequestData> getRequestDebtDataHistory(@PathVariable("requestId") Long requestId) {
+    public List<DebtRequestData> getRequestDebtDataHistory(@PathVariable("requestId") String requestId) {
         return null;
     }
 
     @DeleteMapping("/{requestId}")
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public void deleteRequest(@PathVariable("requestId") Long requestId) {
+    public void deleteRequest(@PathVariable("requestId") String requestId) {
     }
 }

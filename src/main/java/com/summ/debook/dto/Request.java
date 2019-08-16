@@ -20,7 +20,7 @@ public class Request {
     private String rejectMessage;
     private String message;
     private String lastUpdaterId;
-    private List<DebtRequestData> debtRequestDataList = new ArrayList<DebtRequestData>();
+    private List<DebtRequestData> data = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -94,11 +94,11 @@ public class Request {
         this.lastUpdaterId = lastUpdaterId;
     }
 
-    public List<DebtRequestData> getDebtRequestDataList() {
-        return debtRequestDataList;
+    public List<DebtRequestData> getData() {
+        return data;
     }
 
-    public void setDebtRequestDataList(List<DebtRequestData> debtRequestDataList) {
-        this.debtRequestDataList = debtRequestDataList;
+    public void setData(List<DebtRequestData> data) {
+        this.data = data;
     }
 }
