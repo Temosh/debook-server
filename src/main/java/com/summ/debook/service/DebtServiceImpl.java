@@ -44,7 +44,7 @@ public class DebtServiceImpl implements DebtService {
         validateDebtOperationForPerson(personEntity);
 
         debtEntity.setPerson(personEntity);
-        debtEntity.setCurrency(currencyDao.getReference(debtEntity.getCurrency().getId()));
+        debtEntity.setCurrency(currencyDao.find(debtEntity.getCurrency().getId()));
         debtEntity.setCreditType(creditTypeDao.findByType(debtEntity.getCreditType().getType()));
 
         if (LOG.isInfoEnabled()) LOG.info("Creating new debt: " + debtEntity); //TODO TEMP
