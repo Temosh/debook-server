@@ -5,6 +5,7 @@ import com.summ.debook.dao.CurrencyDao;
 import com.summ.debook.dto.Currency;
 import com.summ.debook.dto.DebtRequestData;
 import com.summ.debook.entity.DebtRequestDataEntity;
+import com.summ.debook.service.AuthenticationService;
 import com.summ.debook.service.UserService;
 import com.summ.debook.type.CreditType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 class DebtRequestDataConverter implements Converter<DebtRequestData, DebtRequestDataEntity> {
 
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
 
     @Autowired
     private CurrencyDao currencyDao;
@@ -30,7 +31,7 @@ class DebtRequestDataConverter implements Converter<DebtRequestData, DebtRequest
     @Override
     public DebtRequestDataEntity convertDtoToEntity(DebtRequestData data) {
         DebtRequestDataEntity debtRequestDataEntity = new DebtRequestDataEntity();
-        debtRequestDataEntity.setOwnerUser(userService.getCurrentUser());
+        debtRequestDataEntity.setOwnerUser(authenticationService.getCurrentUser());
         debtRequestDataEntity.setCurrency(currencyDao.getReference(IdConversionHelper.parseId(data.getCurrency().getId(), "Wrong currency ID format")));
         debtRequestDataEntity.setCreditType(creditTypeDao.findByType(data.getCreditType()));
         debtRequestDataEntity.setValue(data.getValue());
@@ -47,7 +48,7 @@ class DebtRequestDataConverter implements Converter<DebtRequestData, DebtRequest
         currency.setSign(dataEntity.getCurrency().getSign());
 
         CreditType creditType;
-        if (userService.getCurrentUser().getUserId().equals(dataEntity.getOwnerUser().getUserId())) {
+        if (authenticationService.getCurrentUser().getUserId().equals(dataEntity.getOwnerUser().getUserId())) {
             creditType = dataEntity.getCreditType().getType();
         } else {
             if (dataEntity.getCreditType().getType() == CreditType.LOAN) {

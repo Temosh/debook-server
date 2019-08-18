@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -28,13 +27,12 @@ public class PersonServiceImpl implements PersonService {
     private PersonDao personDao;
 
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
 
     @Override
     @Transactional
     public List<PersonEntity> getPersons() {
-        UserEntity userEntity = userService.getUser(userService.getCurrentUser().getUserId());
-        List<PersonEntity> personList = userEntity.getPersons();
+        List<PersonEntity> personList = personDao.findByUser(authenticationService.getCurrentUser());
         personList.forEach(person -> Hibernate.initialize(person.getDebts()));
         return personList;
     }
@@ -47,12 +45,11 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional
     public PersonEntity getPerson(long personId) {
-        UserEntity user = userService.getCurrentUser();
+        UserEntity user = authenticationService.getCurrentUser();
         PersonEntity person = personDao.find(personId);
 
-        //TODO Throw proper exception
-        if (!person.getOwnerUser().getUserId().equals(user.getUserId())) {
-            throw new IllegalArgumentException();
+        if (person == null || !person.getOwnerUser().getUserId().equals(user.getUserId())) {
+            return null;
         }
 
         Hibernate.initialize(person.getDebts());
@@ -63,7 +60,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional
     public PersonEntity getPersonByConnectedUser(UserEntity connectedUser) {
-        UserEntity ownerUser = userService.getCurrentUser();
+        UserEntity ownerUser = authenticationService.getCurrentUser();
         return getPersonByConnection(ownerUser, connectedUser);
     }
 
@@ -74,7 +71,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional
     public void createPerson(PersonEntity person) {
-        person.setOwnerUser(userService.getCurrentUser());
+        person.setOwnerUser(authenticationService.getCurrentUser());
         personDao.create(person);
     }
 

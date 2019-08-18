@@ -8,6 +8,7 @@ import com.summ.debook.entity.DebtRequestDataEntity;
 import com.summ.debook.entity.PersonEntity;
 import com.summ.debook.entity.RequestEntity;
 import com.summ.debook.entity.UserEntity;
+import com.summ.debook.service.AuthenticationService;
 import com.summ.debook.service.PersonService;
 import com.summ.debook.service.UserService;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class RequestConverter implements Converter<Request, RequestEntity> {
     private RequestDao requestDao;
 
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
 
     @Autowired
     private PersonService personService;
@@ -46,7 +47,7 @@ public class RequestConverter implements Converter<Request, RequestEntity> {
     @Override
     public RequestEntity convertDtoToEntity(Request request) {
         UserEntity targetUser = userDao.getReference(IdConversionHelper.parseId(request.getUserId(), "Wrong target user ID format"));
-        UserEntity currentUser = userService.getCurrentUser();
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
         //TODO Validation in converter class
         if (currentUser.getUserId().equals(targetUser.getUserId())) {
@@ -82,7 +83,7 @@ public class RequestConverter implements Converter<Request, RequestEntity> {
 
     @Override
     public Request convertEntityToDto(RequestEntity requestEntity) {
-        UserEntity currentUser = userService.getCurrentUser();
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
         PersonEntity personEntity;
         if (requestEntity.getSourceUser().getUserId().equals(currentUser.getUserId())) {

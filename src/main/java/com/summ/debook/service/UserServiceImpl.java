@@ -19,12 +19,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Override
-    public UserEntity getCurrentUser() {
-        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userPrincipal.getUserEntity();
-    }
-
     @Transactional
     @Override
     public UserEntity getUser(Long id) {
@@ -35,11 +29,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUserByLogin(String login) {
         return userDao.findByLogin(login);
-    }
-
-    @Transactional
-    @Override
-    public List<UserEntity> getUsers() {
-        return userDao.findAll();
     }
 }

@@ -6,6 +6,7 @@ import com.summ.debook.dao.UserSecretDao;
 import com.summ.debook.entity.AuthoritiesEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.entity.UserSecretEntity;
+import com.summ.debook.security.UserPrincipal;
 import com.summ.debook.security.UserPrincipalImpl;
 import com.summ.debook.type.Authority;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,5 +78,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userSecretDao.create(userSecret);
 
         authoritiesDao.create(new AuthoritiesEntity(Authority.ROLE_USER, user));
+    }
+
+    @Override
+    public UserEntity getCurrentUser() {
+        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userPrincipal.getUserEntity();
     }
 }

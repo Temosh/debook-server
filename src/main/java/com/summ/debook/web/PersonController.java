@@ -2,9 +2,11 @@ package com.summ.debook.web;
 
 import com.summ.debook.entity.PersonEntity;
 import com.summ.debook.service.PersonService;
+import com.summ.debook.service.converter.IdConversionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,7 +27,11 @@ public class PersonController {
 
     @GetMapping("/{personId}")
     public PersonEntity getPerson(@PathVariable String personId) {
-        return personService.getPerson(Long.parseLong(personId)); //TODO Number parsing!!!
+        PersonEntity personEntity = personService.getPerson(IdConversionHelper.parseId(personId, "Wrong person ID format"));
+        if (personEntity == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person with id '" + personId + "' not found");
+        }
+        return personEntity;
     }
 
     @GetMapping

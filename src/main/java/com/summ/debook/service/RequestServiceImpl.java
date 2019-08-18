@@ -31,7 +31,7 @@ public class RequestServiceImpl implements RequestService {
     private DebtRequestDataDao debtRequestDataDao;
 
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
     @Autowired
     private PersonService personService;
     @Autowired
@@ -74,7 +74,7 @@ public class RequestServiceImpl implements RequestService {
             modifyConnectionRequest(requestEntity, request);
         }
 
-        requestEntity.setLastUpdater(userService.getCurrentUser());
+        requestEntity.setLastUpdater(authenticationService.getCurrentUser());
     }
 
     @Override
@@ -120,7 +120,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private void acceptConnectionRequest(RequestEntity requestEntity) {
-        UserEntity currentUser = userService.getCurrentUser();
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
         if (currentUser.getUserId().equals(requestEntity.getLastUpdater().getUserId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Last updater cannot accept request");
@@ -142,7 +142,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private void rejectConnectionRequest(RequestEntity requestEntity) {
-        UserEntity currentUser = userService.getCurrentUser();
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
         if (currentUser.getUserId().equals(requestEntity.getLastUpdater().getUserId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Last updater cannot reject request");
@@ -162,7 +162,7 @@ public class RequestServiceImpl implements RequestService {
 
     //TODO Check case when client tries to remove linkage sending null as person ID
     private void processConnectionRequestUserLinkage(RequestEntity request, String userIdToConnect, String personIdToConnect) {
-        UserEntity currentUser = userService.getCurrentUser();
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
         if (userIdToConnect.equals(currentUser.getUserId().toString())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request User ID field should contain ID of another user account");

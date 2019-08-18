@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -22,7 +23,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         if (LOG.isErrorEnabled()) {
-            LOG.error(ex.getMessage(), ex);
+            if (ex instanceof NoHandlerFoundException) {
+                LOG.error(ex.getMessage());
+            } else {
+                LOG.error(ex.getMessage(), ex);
+            }
         }
         return new ResponseEntity<>(new ApiError(status, ex.getLocalizedMessage()), status);
     }

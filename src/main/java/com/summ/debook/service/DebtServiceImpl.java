@@ -35,7 +35,7 @@ public class DebtServiceImpl implements DebtService {
     private CreditTypeDao creditTypeDao;
 
     @Autowired
-    private UserService userService;
+    private AuthenticationService authenticationService;
 
     @Transactional
     @Override
@@ -130,7 +130,7 @@ public class DebtServiceImpl implements DebtService {
     }
 
     private void validateDebtOperationForPerson(PersonEntity personEntity) {
-        UserEntity currentUser = userService.getCurrentUser();
+        UserEntity currentUser = authenticationService.getCurrentUser();
 
         if (!personEntity.getOwnerUser().getUserId().equals(currentUser.getUserId())) {
             if (LOG.isWarnEnabled()) {

@@ -3,6 +3,8 @@ package com.summ.debook.dao;
 import com.summ.debook.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Serhii Tymoshenko
  */
@@ -15,8 +17,10 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity> implements UserDao 
 
     @Override
     public UserEntity findByLogin(String login) {
-        return em.createQuery("from UserEntity u where u.login = :login", UserEntity.class)
+        List<UserEntity> result = em.createQuery("from UserEntity u where u.login = :login", UserEntity.class)
                 .setParameter("login", login)
-                .getSingleResult();
+                .getResultList();
+        if (result.isEmpty()) return null;
+        return result.get(0);
     }
 }

@@ -1,5 +1,6 @@
 package com.summ.debook.service;
 
+import com.summ.debook.entity.UserEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -7,4 +8,5 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public interface AuthenticationService extends UserDetailsService {
     void createNewUser(String login, String email, String name, String surname, CharSequence password);
+    UserEntity getCurrentUser();
 }

@@ -17,11 +17,10 @@ public class PersonDaoImpl extends AbstractDaoImpl<PersonEntity> implements Pers
     }
 
     @Override
-    public List<PersonEntity> findByLogin(String login) {
-        throw new UnsupportedOperationException();
-//        return em.createQuery("from PersonEntity p where p.ownerUser = :login", PersonEntity.class)
-//                .setParameter("login", login)
-//                .getResultList();
+    public List<PersonEntity> findByUser(UserEntity user) {
+        return em.createQuery("from PersonEntity p where p.ownerUser = :user", PersonEntity.class)
+                .setParameter("user", user)
+                .getResultList();
     }
 
     @Override

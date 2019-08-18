@@ -8,8 +8,6 @@ import java.util.List;
  * @author Serhii Tymoshenko
  */
 public interface UserService {
-    UserEntity getCurrentUser();
     UserEntity getUser(Long id);
     UserEntity getUserByLogin(String login);
-    List<UserEntity> getUsers();
 }
