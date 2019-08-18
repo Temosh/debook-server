@@ -46,7 +46,14 @@ public class RequestServiceImpl implements RequestService {
         RequestEntity requestEntity = requestConverter.convertDtoToEntity(request);
 
         //TODO Use something like Strategy pattern
+        if (requestDao.findPendingRequestByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Connection request already created for user " + requestEntity.getTargetUser().getUserId());
+        }
+        if (!personService.getPersonsByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User " + requestEntity.getTargetUser().getUserId() + " already connected");
+        }
         processConnectionRequestUserLinkage(requestEntity, request.getUserId(), request.getPersonId());
+        //----------------------------------------
 
         requestDao.create(requestEntity);
         requestEntity.getDebtRequestDataList().forEach(data -> debtRequestDataDao.create(data));
@@ -86,7 +93,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional
     public List<Request> getRequests() {
-        List<RequestEntity> requestEntityList = requestDao.findAll();
+        List<RequestEntity> requestEntityList = requestDao.findAll(authenticationService.getCurrentUser());
         List<Request> requestList = new ArrayList<>(requestEntityList.size());
         requestEntityList.forEach(requestEntity -> requestList.add(requestConverter.convertEntityToDto(requestEntity)));
         return requestList;
@@ -95,7 +102,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional
     public List<Request> getPendingRequests() {
-        List<RequestEntity> requestEntityList = requestDao.findAllPendingRequest();
+        List<RequestEntity> requestEntityList = requestDao.findAllPendingRequest(authenticationService.getCurrentUser());
         List<Request> requestList = new ArrayList<>(requestEntityList.size());
         requestEntityList.forEach(requestEntity -> requestList.add(requestConverter.convertEntityToDto(requestEntity)));
         return requestList;
