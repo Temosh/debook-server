@@ -36,12 +36,14 @@ public class PersonEntity implements java.io.Serializable {
     @JoinColumn(name = "owner_user_id", nullable = false)
     private UserEntity ownerUser;
 
-    @JsonIgnore //TODO TEMP
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "connected_user_id")
     private UserEntity connectedUser;
 
-    @JsonIgnore //TODO TEMP
+    @Column(name = "connected_user_id", updatable = false, insertable = false)
+    private Long connectedUserId;
+
     @Column(name = "connection_approved")
     private Boolean connectionApproved;
 
@@ -108,6 +110,10 @@ public class PersonEntity implements java.io.Serializable {
 
     public UserEntity getConnectedUser() {
         return this.connectedUser;
+    }
+
+    public Long getConnectedUserId() {
+        return connectedUserId;
     }
 
     public void setConnectedUser(UserEntity linkedUser) {
