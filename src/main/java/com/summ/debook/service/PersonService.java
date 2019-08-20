@@ -13,7 +13,7 @@ public interface PersonService {
     List<PersonEntity> getPersonsByConnection(UserEntity user1, UserEntity user2);
     PersonEntity getPerson(long personId);
     PersonEntity getPersonByConnectedUser(UserEntity targetUser);
-    void createPerson(PersonEntity person);
+    PersonEntity createPerson(PersonEntity person);
 
     void connectUser(String personId, UserEntity userEntity);
     void approveConnection(UserEntity user1, UserEntity user2);

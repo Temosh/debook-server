@@ -52,7 +52,7 @@ public class RequestServiceImpl implements RequestService {
         if (!personService.getPersonsByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User " + requestEntity.getTargetUser().getUserId() + " already connected");
         }
-        processConnectionRequestUserLinkage(requestEntity, request.getUserId(), request.getPersonId());
+        processConnectionRequestUserLinkage(requestEntity, request.getUser().getId(), request.getPersonId());
         //----------------------------------------
 
         requestDao.create(requestEntity);
@@ -71,7 +71,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         //TODO Use something like Strategy pattern
-        processConnectionRequestUserLinkage(requestEntity, request.getUserId(), request.getPersonId());
+        processConnectionRequestUserLinkage(requestEntity, request.getUser().getId(), request.getPersonId());
 
         if (request.isRejected() != null && request.isRejected()) {
             rejectConnectionRequest(requestEntity);

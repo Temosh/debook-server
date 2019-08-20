@@ -70,15 +70,15 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public void createPerson(PersonEntity person) {
+    public PersonEntity createPerson(PersonEntity person) {
         person.setOwnerUser(authenticationService.getCurrentUser());
-        personDao.create(person);
+        return personDao.create(person);
     }
 
     @Override
     @Transactional
     public void connectUser(String personId, UserEntity userEntity) {
-        Long personIdLong = IdConversionHelper.parseId(personId, "Wrong person ID format");
+        long personIdLong = IdConversionHelper.parseId(personId, "Wrong person ID format");
 
         //TODO Create database unique constraint
         PersonEntity connectedPersonEntity = getPersonByConnectedUser(userEntity);

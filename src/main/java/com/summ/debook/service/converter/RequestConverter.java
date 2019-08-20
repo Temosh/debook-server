@@ -4,13 +4,13 @@ import com.summ.debook.dao.RequestDao;
 import com.summ.debook.dao.UserDao;
 import com.summ.debook.dto.DebtRequestData;
 import com.summ.debook.dto.Request;
+import com.summ.debook.dto.User;
 import com.summ.debook.entity.DebtRequestDataEntity;
 import com.summ.debook.entity.PersonEntity;
 import com.summ.debook.entity.RequestEntity;
 import com.summ.debook.entity.UserEntity;
 import com.summ.debook.service.AuthenticationService;
 import com.summ.debook.service.PersonService;
-import com.summ.debook.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class RequestConverter implements Converter<Request, RequestEntity> {
 
     @Override
     public RequestEntity convertDtoToEntity(Request request) {
-        UserEntity targetUser = userDao.getReference(IdConversionHelper.parseId(request.getUserId(), "Wrong target user ID format"));
+        UserEntity targetUser = userDao.getReference(IdConversionHelper.parseId(request.getUser().getId(), "Wrong target user ID format"));
         UserEntity currentUser = authenticationService.getCurrentUser();
 
         //TODO Validation in converter class
@@ -95,10 +95,10 @@ public class RequestConverter implements Converter<Request, RequestEntity> {
         Request request = new Request();
         request.setId(requestEntity.getId().toString());
         request.setType(requestEntity.getType());
-        request.setUserId(
+        request.setUser(
                 requestEntity.getSourceUser().getUserId().equals(currentUser.getUserId()) ?
-                        requestEntity.getTargetUser().getUserId().toString() :
-                        requestEntity.getSourceUser().getUserId().toString()
+                        convertUserEntityToDto(requestEntity.getTargetUser()) :
+                        convertUserEntityToDto(requestEntity.getSourceUser())
         );
         request.setPersonId(personEntity == null ? null : personEntity.getPersonId().toString());
         request.setProcessed(requestEntity.isProcessed());
@@ -116,5 +116,13 @@ public class RequestConverter implements Converter<Request, RequestEntity> {
         request.setData(dataList);
 
         return request;
+    }
+
+    private User convertUserEntityToDto(UserEntity userEntity) {
+        User user = new User();
+        user.setId(userEntity.getUserId().toString());
+        user.setName(userEntity.getLogin());
+        user.setAvatarUrl(null);
+        return user;
     }
 }

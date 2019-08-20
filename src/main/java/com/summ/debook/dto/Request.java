@@ -13,7 +13,7 @@ public class Request {
 
     private String id;
     private RequestType type;
-    private String userId;
+    private User user;
     private String personId;
     private Boolean processed;
     private Boolean rejected;
@@ -38,12 +38,12 @@ public class Request {
         this.type = type;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getPersonId() {

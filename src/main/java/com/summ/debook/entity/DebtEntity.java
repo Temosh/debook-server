@@ -18,7 +18,6 @@ import javax.persistence.*;
 @Table(name = "debt")
 public class DebtEntity implements java.io.Serializable {
 
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "debt_id", unique = true, nullable = false)

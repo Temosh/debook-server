@@ -21,7 +21,7 @@ public abstract class AbstractDaoImpl<T extends Serializable> implements Abstrac
     }
 
     @Override
-    public Serializable create(T entity) {
+    public T create(T entity) {
         em.persist(entity);
         return entity;
     }

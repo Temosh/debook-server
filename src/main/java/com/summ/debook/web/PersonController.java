@@ -21,8 +21,8 @@ public class PersonController {
     private PersonService personService;
 
     @PostMapping
-    public void createPersons(@RequestBody PersonEntity person) {
-        personService.createPerson(person);
+    public PersonEntity createPersons(@RequestBody PersonEntity person) {
+        return personService.createPerson(person);
     }
 
     @GetMapping("/{personId}")

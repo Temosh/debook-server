@@ -7,7 +7,7 @@ import java.util.List;
  * @author Serhii Tymoshenko
  */
 public interface AbstractDao<T extends Serializable> {
-    Serializable create(T entity);
+    T create(T entity);
     void remove(T entity);
     T find(Serializable id);
     List<T> findAll();
