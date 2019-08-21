@@ -26,6 +26,7 @@ import javax.persistence.Table;
 @Table(name = "person")
 public class PersonEntity implements java.io.Serializable {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "person_id", unique = true, nullable = false)
