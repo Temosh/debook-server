@@ -46,13 +46,15 @@ public class RequestServiceImpl implements RequestService {
         RequestEntity requestEntity = requestConverter.convertDtoToEntity(request);
 
         //TODO Use something like Strategy pattern
-        if (requestDao.findPendingRequestByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()) != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Connection request already created for user " + requestEntity.getTargetUser().getUserId());
+        if (requestEntity.getType() == RequestType.CONNECTION) {
+            if (requestDao.findPendingRequestByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()) != null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Connection request already created for user " + requestEntity.getTargetUser().getUserId());
+            }
+            if (!personService.getPersonsByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()).isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User " + requestEntity.getTargetUser().getUserId() + " already connected");
+            }
+            processConnectionRequestUserLinkage(requestEntity, request.getUser().getId(), request.getPersonId());
         }
-        if (!personService.getPersonsByConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser()).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User " + requestEntity.getTargetUser().getUserId() + " already connected");
-        }
-        processConnectionRequestUserLinkage(requestEntity, request.getUser().getId(), request.getPersonId());
         //----------------------------------------
 
         requestDao.create(requestEntity);
@@ -71,7 +73,9 @@ public class RequestServiceImpl implements RequestService {
         }
 
         //TODO Use something like Strategy pattern
-        processConnectionRequestUserLinkage(requestEntity, request.getUser().getId(), request.getPersonId());
+        if (requestEntity.getType() == RequestType.CONNECTION) {
+            processConnectionRequestUserLinkage(requestEntity, request.getUser().getId(), request.getPersonId());
+        }
 
         if (request.isRejected() != null && request.isRejected()) {
             rejectConnectionRequest(requestEntity);
