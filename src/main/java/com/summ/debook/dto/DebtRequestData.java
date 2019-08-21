@@ -1,5 +1,6 @@
 package com.summ.debook.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.summ.debook.type.CreditType;
@@ -18,6 +19,7 @@ public class DebtRequestData {
     private Currency currency;
     private BigDecimal value;
     private String message;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDateTime creationTime;
 

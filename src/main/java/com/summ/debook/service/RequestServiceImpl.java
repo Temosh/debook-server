@@ -155,10 +155,6 @@ public class RequestServiceImpl implements RequestService {
     private void rejectConnectionRequest(RequestEntity requestEntity) {
         UserEntity currentUser = authenticationService.getCurrentUser();
 
-        if (currentUser.getUserId().equals(requestEntity.getLastUpdater().getUserId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Last updater cannot reject request");
-        }
-
         //TODO Use something like Strategy pattern
         if (requestEntity.getType() == RequestType.CONNECTION) {
             personService.removeConnection(requestEntity.getSourceUser(), requestEntity.getTargetUser());
