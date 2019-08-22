@@ -3,6 +3,7 @@ package com.summ.debook.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -35,6 +36,7 @@ public class DebtRequestDataEntity implements Serializable {
     @JoinColumn(name = "credit_type_id", nullable = false, updatable = false)
     protected CreditTypeEntity creditType;
 
+    @Min(value = 1, message = "Value should be greater than 0")
     @Column(name = "value", nullable = false, updatable = false)
     protected BigDecimal value;
 
