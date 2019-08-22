@@ -9,7 +9,7 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://${dbHost}:${dbPort}/${dbName}"/>
+        <property name="url" value="jdbc:mysql://${dbHost}:${dbPort}/${dbName}?useUnicode=yes&amp;characterEncoding=UTF-8"/>
         <property name="username" value="${dbUser}"/>
         <property name="password" value="${dbPass}"/>
     </bean>
