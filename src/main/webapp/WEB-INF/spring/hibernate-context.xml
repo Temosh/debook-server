@@ -9,7 +9,7 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://${dbHost}:${dbPort}/${dbName}?useUnicode=yes&amp;characterEncoding=UTF-8"/>
+        <property name="url" value="jdbc:mysql://${dbHost}:${dbPort}/${dbName}?useUnicode=yes&amp;characterEncoding=UTF-8&amp;useTimezone=true&amp;serverTimezone=UTC"/>
         <property name="username" value="${dbUser}"/>
         <property name="password" value="${dbPass}"/>
     </bean>
@@ -33,13 +33,6 @@
                 <value>com.summ.debook.entity.UserEntity</value>
                 <value>com.summ.debook.entity.UserSecretEntity</value>
             </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.connection.url">jdbc:mysql://${dbHost}:${dbPort}/${dbName}</prop>
-                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-            </props>
         </property>
     </bean>
 
