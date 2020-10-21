@@ -33,7 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<Object> handleAll(ResponseStatusException ex, WebRequest request) {
+    public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException ex, WebRequest request) {
         if (ex.getStatus().is4xxClientError() && LOG.isInfoEnabled()) {
             LOG.info(ex.getMessage());
         } else if (LOG.isErrorEnabled()) {
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+    public ResponseEntity<Object> handleAll(Throwable ex, WebRequest request) {
         if (LOG.isErrorEnabled()) {
             LOG.error(ex.getMessage(), ex);
         }
